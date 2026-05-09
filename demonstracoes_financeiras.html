@@ -1,0 +1,4619 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demonstrações Financeiras – Amoveri Pontual</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ── RESET & BASE ─────────────────────────────────────── */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --purple: #5b52a0;
+        --purple-dark: #3d3676;
+        --purple-mid: #7269ba;
+        --purple-light: #eae8f5;
+        --purple-soft: #d0ccf0;
+        --white: #ffffff;
+        --text: #2d2d40;
+        --text-muted: #6b6b8a;
+        --green: #1b5c4e;
+        --red: #c0392b;
+        --amber: #c07a0a;
+      }
+
+      body {
+        font-family: "Poppins", "Segoe UI", sans-serif;
+        font-size: 10pt;
+        color: var(--text);
+        background: #beb7eb;
+      }
+
+      /* ── HEXAGON SVG PATTERN (decorative) ─────────────────── */
+      .hex-bg {
+        position: absolute;
+        opacity: 0.06;
+        pointer-events: none;
+      }
+
+      /* ═══════════════════════════════════════════════════════
+     CAPA
+  ═══════════════════════════════════════════════════════ */
+      .cover {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0 auto;
+        background: linear-gradient(
+          145deg,
+          #3d3676 0%,
+          #5b52a0 55%,
+          #7269ba 100%
+        );
+        display: flex;
+        flex-direction: column;
+        page-break-after: always;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Hexagon decorative SVG background */
+      .cover-hexbg {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .cover-hexbg svg {
+        position: absolute;
+        opacity: 0.08;
+      }
+
+      /* TOP BAND */
+      .cover-topband {
+        background: rgba(0, 0, 0, 0.18);
+        padding: 18px 44px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+      }
+
+      .cover-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .cover-logo img {
+        height: 38px;
+        filter: brightness(0) invert(1);
+      }
+
+      .cover-logo-fallback {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .hex-icon {
+        width: 42px;
+        height: 42px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .hex-icon svg {
+        position: absolute;
+        inset: 0;
+      }
+
+      .hex-icon span {
+        position: relative;
+        z-index: 1;
+        color: white;
+        font-weight: 800;
+        font-size: 18px;
+        font-style: italic;
+      }
+
+      .cover-logo-words {
+        color: white;
+      }
+      .cover-logo-words .w1 {
+        font-weight: 700;
+        font-size: 14pt;
+        letter-spacing: -0.3px;
+      }
+      .cover-logo-words .w2 {
+        font-weight: 300;
+        font-size: 14pt;
+      }
+      .cover-logo-words .sub {
+        font-size: 7pt;
+        opacity: 0.65;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+      }
+
+      .cover-date {
+        color: rgba(255, 255, 255, 0.65);
+        font-size: 8pt;
+        text-align: right;
+        line-height: 1.5;
+      }
+
+      /* MAIN CONTENT */
+      .cover-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 44px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .cover-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 7.5pt;
+        font-weight: 500;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        padding: 5px 16px;
+        border-radius: 30px;
+        margin-bottom: 20px;
+        width: fit-content;
+      }
+
+      .cover-eyebrow::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.7);
+      }
+
+      .cover-headline {
+        color: #fff;
+        font-size: 38pt;
+        font-weight: 800;
+        line-height: 1.05;
+        margin-bottom: 6px;
+      }
+
+      .cover-headline span {
+        font-weight: 300;
+      }
+
+      .cover-sub {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 11pt;
+        font-weight: 400;
+        margin-bottom: 40px;
+      }
+
+      /* KPI CARDS */
+      .cover-kpis {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-bottom: 36px;
+      }
+
+      .kpi {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 10px;
+        padding: 14px 16px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .kpi::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.35);
+        border-radius: 10px 10px 0 0;
+      }
+
+      .kpi-label {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 6.5pt;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 6px;
+      }
+      .kpi-value {
+        color: #fff;
+        font-size: 15pt;
+        font-weight: 700;
+        line-height: 1;
+      }
+      .kpi-var {
+        margin-top: 5px;
+        font-size: 7pt;
+        font-weight: 600;
+      }
+      .kpi-var.pos {
+        color: #7fffc4;
+      }
+      .kpi-var.neg {
+        color: #ffb3b3;
+      }
+
+      /* BOTTOM */
+      .cover-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+        padding: 20px 44px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        position: relative;
+        z-index: 2;
+      }
+
+      .cover-bottom-left {
+        color: rgba(255, 255, 255, 0.55);
+        font-size: 7pt;
+        line-height: 1.8;
+      }
+      .cover-bottom-left strong {
+        color: rgba(255, 255, 255, 0.85);
+        display: block;
+        font-size: 8pt;
+        margin-bottom: 2px;
+      }
+
+      .cover-bottom-right {
+        text-align: right;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 6.5pt;
+        line-height: 1.8;
+      }
+
+      /* ═══════════════════════════════════════════════════════
+     PAGES
+  ═══════════════════════════════════════════════════════ */
+      .page {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0 auto 20px;
+        background: #fff;
+        padding: 14mm 13mm 20mm;
+        page-break-after: always;
+        position: relative;
+      }
+
+      .page:last-child {
+        page-break-after: auto;
+      }
+
+      /* PAGE HEADER */
+      .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 8px;
+        margin-bottom: 10px;
+        border-bottom: 2px solid var(--purple);
+      }
+
+      .ph-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .ph-hex {
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .ph-hex svg {
+        width: 32px;
+        height: 32px;
+      }
+
+      .ph-company {
+        font-size: 9pt;
+        font-weight: 700;
+        color: var(--purple-dark);
+        line-height: 1.2;
+      }
+      .ph-cnpj {
+        font-size: 6.5pt;
+        color: var(--text-muted);
+      }
+
+      .ph-right {
+        text-align: right;
+        font-size: 7pt;
+        color: var(--text-muted);
+        line-height: 1.5;
+      }
+
+      /* SECTION TITLE */
+      .section-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--purple);
+        color: #fff;
+        font-size: 9pt;
+        font-weight: 600;
+        padding: 6px 12px 6px 8px;
+        border-radius: 6px;
+        margin: 10px 0 2px;
+        letter-spacing: 0.3px;
+      }
+
+      .section-title::before {
+        content: "";
+        display: block;
+        width: 18px;
+        height: 18px;
+        background: rgba(255, 255, 255, 0.2);
+        clip-path: polygon(
+          50% 0%,
+          100% 25%,
+          100% 75%,
+          50% 100%,
+          0% 75%,
+          0% 25%
+        );
+        flex-shrink: 0;
+      }
+
+      .section-sub {
+        font-size: 7pt;
+        color: var(--text-muted);
+        font-style: italic;
+        margin-bottom: 8px;
+        padding-left: 4px;
+      }
+
+      /* HIGHLIGHT CARDS */
+      .hl-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .hl-grid.cols-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .hl {
+        border-radius: 8px;
+        padding: 9px 12px;
+        background: var(--purple-light);
+        border-left: 4px solid var(--purple);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hl.green {
+        border-left-color: var(--green);
+        background: #eaf5f0;
+      }
+      .hl.red {
+        border-left-color: var(--red);
+        background: #faeaea;
+      }
+      .hl.amber {
+        border-left-color: var(--amber);
+        background: #fbf4e5;
+      }
+
+      .hl-label {
+        font-size: 6.5pt;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 3px;
+      }
+      .hl-value {
+        font-size: 13pt;
+        font-weight: 700;
+        color: var(--purple-dark);
+        line-height: 1;
+      }
+      .hl.green .hl-value {
+        color: var(--green);
+      }
+      .hl.red .hl-value {
+        color: var(--red);
+      }
+      .hl.amber .hl-value {
+        color: var(--amber);
+      }
+      .hl-var {
+        font-size: 7pt;
+        font-weight: 600;
+        margin-top: 3px;
+      }
+      .hl-var.pos {
+        color: var(--green);
+      }
+      .hl-var.neg {
+        color: var(--red);
+      }
+
+      /* ── TABLES ─────────────────────────────────────────── */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 8pt;
+      }
+
+      thead th {
+        background: var(--purple-dark);
+        color: #fff;
+        padding: 5px 8px;
+        font-weight: 600;
+        font-size: 7.5pt;
+        white-space: nowrap;
+      }
+
+      thead th:first-child {
+        text-align: left;
+      }
+      thead th:not(:first-child) {
+        text-align: right;
+      }
+
+      tbody td {
+        padding: 3.5px 8px;
+      }
+      tbody tr:nth-child(even) {
+        background: var(--purple-light);
+      }
+      tbody tr:hover {
+        background: var(--purple-soft);
+      }
+
+      .tv {
+        text-align: right;
+        font-family: "Poppins", monospace;
+        white-space: nowrap;
+        font-size: 7.5pt;
+      }
+      .tp {
+        text-align: right;
+        font-size: 7pt;
+        color: var(--text-muted);
+        white-space: nowrap;
+      }
+
+      /* Row types */
+      tr.rg td {
+        /* group header */
+        font-weight: 700;
+        color: var(--purple-dark);
+        background: var(--purple-soft) !important;
+        border-top: 1.5px solid var(--purple-mid);
+        border-bottom: 1.5px solid var(--purple-mid);
+        font-size: 8pt;
+        padding: 4px 8px;
+      }
+
+      tr.rs td {
+        /* subtotal */
+        font-weight: 600;
+        color: var(--purple-dark);
+        background: #d8d4f0 !important;
+        border-top: 1px solid #b8b4dc;
+        font-size: 7.5pt;
+        padding: 4px 8px;
+      }
+
+      tr.rt td {
+        /* total */
+        font-weight: 800;
+        color: #fff !important;
+        background: var(--purple) !important;
+        border-top: 2px solid var(--purple-dark);
+        font-size: 8pt;
+        padding: 5px 8px;
+      }
+
+      tr.re td {
+        /* EBITDA */
+        font-weight: 700;
+        color: #fff !important;
+        background: #2a7a50 !important;
+        font-size: 8pt;
+        padding: 5px 8px;
+      }
+
+      tr.rr td {
+        /* resultado */
+        font-weight: 800;
+        color: #fff !important;
+        background: var(--purple-dark) !important;
+        font-size: 8pt;
+        padding: 5px 8px;
+      }
+
+      tr.ri td:first-child {
+        padding-left: 18px;
+        color: #4a4570;
+      }
+      tr.ri2 td:first-child {
+        padding-left: 30px;
+        color: #6b68a0;
+      }
+
+      .pos {
+        color: var(--green) !important;
+        font-weight: 600;
+      }
+      .neg {
+        color: var(--red) !important;
+        font-weight: 600;
+      }
+      .vup {
+        color: var(--green);
+        font-weight: 600;
+        font-size: 7pt;
+      }
+      .vdn {
+        color: var(--red);
+        font-weight: 600;
+        font-size: 7pt;
+      }
+      .vnu {
+        color: var(--text-muted);
+        font-size: 7pt;
+      }
+
+      /* ── PAGE FOOTER ─────────────────────────────────────── */
+      .page-footer {
+        position: absolute;
+        bottom: 8mm;
+        left: 13mm;
+        right: 13mm;
+        border-top: 1px solid var(--purple-soft);
+        padding-top: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        font-size: 6pt;
+        color: #aaaacc;
+      }
+
+      .pf-signers {
+        line-height: 1.6;
+      }
+
+      .pf-hex {
+        width: 20px;
+        height: 20px;
+        opacity: 0.3;
+      }
+
+      /* ── PRINT ───────────────────────────────────────────── */
+      @media print {
+        body {
+          background: #fff;
+        }
+        .cover,
+        .page {
+          margin: 0;
+        }
+      }
+
+      @page {
+        size: A4;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ═══════════════════════════════════════════════════════
+     CAPA
+═══════════════════════════════════════════════════════ -->
+    <div class="cover">
+      <!-- Hexagonal decorative background -->
+      <div class="cover-hexbg">
+        <svg
+          width="600"
+          height="600"
+          style="top: -100px; right: -150px"
+          viewBox="0 0 600 600"
+          fill="none"
+        >
+          <polygon
+            points="300,30 540,165 540,435 300,570 60,435 60,165"
+            stroke="white"
+            stroke-width="1"
+            fill="none"
+          />
+          <polygon
+            points="300,80 510,192 510,418 300,530 90,418 90,192"
+            stroke="white"
+            stroke-width="0.5"
+            fill="none"
+          />
+          <polygon
+            points="300,130 480,219 480,401 300,490 120,401 120,219"
+            stroke="white"
+            stroke-width="0.3"
+            fill="none"
+          />
+        </svg>
+        <svg
+          width="400"
+          height="400"
+          style="bottom: -100px; left: -80px"
+          viewBox="0 0 400 400"
+          fill="none"
+        >
+          <polygon
+            points="200,20 360,110 360,290 200,380 40,290 40,110"
+            stroke="white"
+            stroke-width="1"
+            fill="none"
+          />
+          <polygon
+            points="200,60 330,132 330,268 200,340 70,268 70,132"
+            stroke="white"
+            stroke-width="0.5"
+            fill="none"
+          />
+        </svg>
+        <svg
+          width="200"
+          height="200"
+          style="top: 50px; left: 200px"
+          viewBox="0 0 200 200"
+          fill="none"
+        >
+          <polygon
+            points="100,10 180,55 180,145 100,190 20,145 20,55"
+            stroke="white"
+            stroke-width="1"
+            fill="rgba(255,255,255,0.5)"
+          />
+        </svg>
+      </div>
+
+      <!-- TOP BAND -->
+      <div class="cover-topband">
+        <div class="cover-logo">
+          <img
+            src="https://amoverifarma.com.br/wp-content/uploads/2024/11/333.3-site-amoveri-farma_png_para_ppt-01.png"
+            alt="Amoveri Farma"
+            onerror="
+              this.style.display = 'none';
+              this.nextElementSibling.style.display = 'flex';
+            "
+          />
+          <div class="cover-logo-fallback" style="display: none">
+            <div class="hex-icon">
+              <svg viewBox="0 0 42 42" fill="none">
+                <polygon
+                  points="21,2 39,11.5 39,30.5 21,40 3,30.5 3,11.5"
+                  fill="rgba(255,255,255,0.25)"
+                  stroke="rgba(255,255,255,0.6)"
+                  stroke-width="1.5"
+                />
+              </svg>
+              <span>A</span>
+            </div>
+            <div class="cover-logo-words">
+              <div>
+                <span class="w1">Amoveri</span><span class="w2">Farma</span>
+              </div>
+              <div class="sub">Pontual</div>
+            </div>
+          </div>
+        </div>
+        <div class="cover-date">
+          Demonstrações Financeiras<br />
+          Período: Janeiro – Outubro 2025
+        </div>
+      </div>
+
+      <!-- BODY -->
+      <div class="cover-body">
+        <div class="cover-eyebrow">Divulgação de Resultados</div>
+        <div class="cover-headline">
+          Resultados<br /><span>Jan – Out 2025</span>
+        </div>
+        <div class="cover-sub">
+          Pontual Farmacêutica NR 2006 Ltda. · CNPJ 07.724.173/0001-00
+        </div>
+
+        <div class="cover-kpis">
+          <div class="kpi">
+            <div class="kpi-label">Receita Bruta</div>
+            <div class="kpi-value">R$ 534,6 MM</div>
+            <div class="kpi-var pos">▲ 140,7% vs 2024</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">EBITDA</div>
+            <div class="kpi-value">R$ 15,9 MM</div>
+            <div class="kpi-var pos">▲ Margem 3,4%</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Resultado Líquido</div>
+            <div class="kpi-value">R$ 9,95 MM</div>
+            <div class="kpi-var pos">▲ Reverteu prejuízo</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Total do Ativo</div>
+            <div class="kpi-value">R$ 259,4 MM</div>
+            <div class="kpi-var pos">▲ R$ 149,1 MM vs Dez/24</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM -->
+      <div class="cover-bottom">
+        <div class="cover-bottom-left">
+          <strong>Períodos de Referência</strong>
+          Balanço Patrimonial: 31 de outubro de 2025 | Comparativo: 31 de
+          dezembro de 2024<br />
+          DRE Acumulada: Janeiro a outubro de 2025 vs. Janeiro a outubro de 2024
+        </div>
+        <div class="cover-bottom-right">
+          Luiz Fernando Biasi Staskowian · Diretor Financeiro<br />
+          Raphael Luiz Rodrigues Ramos · Diretor Operacional<br />
+          Thiago Fernandes da Silva · Contador CRC-RJ 129866/O-9
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+     PÁG. 1 – BALANÇO PATRIMONIAL · ATIVO
+═══════════════════════════════════════════════════════ -->
+    <div class="page">
+      <div class="page-header">
+        <div class="ph-left">
+          <div class="ph-hex">
+            <svg viewBox="0 0 32 32" fill="none">
+              <polygon points="16,2 29,9 29,23 16,30 3,23 3,9" fill="#5B52A0" />
+              <text
+                x="16"
+                y="21"
+                text-anchor="middle"
+                fill="white"
+                font-size="14"
+                font-weight="800"
+                font-family="Poppins,sans-serif"
+                font-style="italic"
+              >
+                A
+              </text>
+            </svg>
+          </div>
+          <div>
+            <div class="ph-company">PONTUAL FARMACÊUTICA NR 2006 LTDA</div>
+            <div class="ph-cnpj">
+              CNPJ n° 07.724.173/0001-00 · Valores expressos em Reais
+            </div>
+          </div>
+        </div>
+        <div class="ph-right">
+          Jan – Out 2025<br />Demonstrações Financeiras
+        </div>
+      </div>
+
+      <div class="section-title">Balanço Patrimonial – Ativo</div>
+      <div class="section-sub">
+        Findo em 31 de outubro de 2025 · Comparativo: 31 de dezembro de 2024
+      </div>
+
+      <div class="hl-grid">
+        <div class="hl green">
+          <div class="hl-label">Ativo Total</div>
+          <div class="hl-value">R$ 259,4 MM</div>
+          <div class="hl-var pos">▲ +135,3% vs Dez/24</div>
+        </div>
+        <div class="hl">
+          <div class="hl-label">Ativo Circulante</div>
+          <div class="hl-value">R$ 232,3 MM</div>
+          <div class="hl-var pos">▲ +157,3% vs Dez/24</div>
+        </div>
+        <div class="hl amber">
+          <div class="hl-label">Clientes (A Receber)</div>
+          <div class="hl-value">R$ 137,0 MM</div>
+          <div class="hl-var pos">▲ +171,3% vs Dez/24</div>
+        </div>
+        <div class="hl amber">
+          <div class="hl-label">Estoques</div>
+          <div class="hl-value">R$ 76,9 MM</div>
+          <div class="hl-var pos">▲ +150,3% vs Dez/24</div>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 52%">DESCRIÇÃO</th>
+            <th style="width: 19%">Out/2025 · R$</th>
+            <th style="width: 19%">Dez/2024 · R$</th>
+            <th style="width: 10%">Var. %</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="rg">
+            <td>ATIVO</td>
+            <td class="tv"></td>
+            <td class="tv"></td>
+            <td class="tp"></td>
+          </tr>
+
+          <tr class="rs">
+            <td>Ativo Circulante</td>
+            <td class="tv"></td>
+            <td class="tv"></td>
+            <td class="tp"></td>
+          </tr>
+          <tr class="ri">
+            <td>Caixa e Bancos Conta Movimento</td>
+            <td class="tv">1.244.932</td>
+            <td class="tv">2.917.215</td>
+            <td class="tv vdn">-57,3%</td>
+          </tr>
+          <tr class="ri">
+            <td>Clientes</td>
+            <td class="tv">137.043.697</td>
+            <td class="tv">50.505.851</td>
+            <td class="tv vup">+171,3%</td>
+          </tr>
+          <tr class="ri">
+            <td>Estoques</td>
+            <td class="tv">76.920.593</td>
+            <td class="tv">30.729.612</td>
+            <td class="tv vup">+150,3%</td>
+          </tr>
+          <tr class="ri">
+            <td>Adiantamentos</td>
+            <td class="tv">636.590</td>
+            <td class="tv">183.445</td>
+            <td class="tv vup">+246,8%</td>
+          </tr>
+          <tr class="ri">
+            <td>Créditos com Pessoas Ligadas</td>
+            <td class="tv">668.391</td>
+            <td class="tv">274.471</td>
+            <td class="tv vup">+143,5%</td>
+          </tr>
+          <tr class="ri">
+            <td>Impostos a Recuperar</td>
+            <td class="tv">15.739.304</td>
+            <td class="tv">5.675.099</td>
+            <td class="tv vup">+177,3%</td>
+          </tr>
+          <tr class="ri">
+            <td>Outros Créditos</td>
+            <td class="tv vnu">–</td>
+            <td class="tv vnu">–</td>
+            <td class="tv vnu">–</td>
+          </tr>
+          <tr class="rs">
+            <td>Total do Ativo Circulante</td>
+            <td class="tv">232.253.507</td>
+            <td class="tv">90.285.693</td>
+            <td class="tv vup">+157,3%</td>
+          </tr>
+
+          <tr class="rs">
+            <td>Ativo Não Circulante</td>
+            <td class="tv"></td>
+            <td class="tv"></td>
+            <td class="tp"></td>
+          </tr>
+          <tr>
+            <td
+              style="padding-left: 12px; font-weight: 600; color: var(--purple)"
+            >
+              Realizável a Longo Prazo
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr class="ri">
+            <td>Créditos com Pessoas Ligadas</td>
+            <td class="tv">11.140.419</td>
+            <td class="tv">5.083.419</td>
+            <td class="tv vup">+119,2%</td>
+          </tr>
+          <tr class="ri">
+            <td>Impostos a Recuperar</td>
+            <td class="tv">9.366.693</td>
+            <td class="tv vnu">–</td>
+            <td class="tv vnu">n.a.</td>
+          </tr>
+          <tr class="ri">
+            <td>Ativo Contingente</td>
+            <td class="tv">5.669.587</td>
+            <td class="tv">7.869.737</td>
+            <td class="tv vdn">-28,0%</td>
+          </tr>
+          <tr class="ri">
+            <td><strong>Total do Realizável a LP</strong></td>
+            <td class="tv"><strong>26.176.699</strong></td>
+            <td class="tv"><strong>12.953.156</strong></td>
+            <td class="tv vup"><strong>+102,1%</strong></td>
+          </tr>
+
+          <tr>
+            <td
+              style="padding-left: 12px; font-weight: 600; color: var(--purple)"
+            >
+              Investimentos
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr class="ri">
+            <td>Participações Societárias</td>
+            <td class="tv vnu">–</td>
+            <td class="tv">6.010.000</td>
+            <td class="tv vdn">-100,0%</td>
+          </tr>
+          <tr class="ri">
+            <td><strong>Total dos Investimentos</strong></td>
+            <td class="tv vnu"><strong>–</strong></td>
+            <td class="tv"><strong>6.010.000</strong></td>
+            <td class="tv vdn"><strong>-100,0%</strong></td>
+          </tr>
+
+          <tr>
+            <td
+              style="padding-left: 12px; font-weight: 600; color: var(--purple)"
+            >
+              Imobilizado e Intangível
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr class="ri">
+            <td>Imobilizado Líquido</td>
+            <td class="tv">509.537</td>
+            <td class="tv">583.680</td>
+            <td class="tv vdn">-12,7%</td>
+          </tr>
+          <tr class="ri">
+            <td>Imobilizado em Andamento</td>
+            <td class="tv">321.018</td>
+            <td class="tv">243.040</td>
+            <td class="tv vup">+32,1%</td>
+          </tr>
+          <tr class="ri">
+            <td>Intangível Líquido</td>
+            <td class="tv">101.317</td>
+            <td class="tv">144.537</td>
+            <td class="tv vdn">-29,9%</td>
+          </tr>
+          <tr class="ri">
+            <td><strong>Total do Imobilizado/Intangível</strong></td>
+            <td class="tv"><strong>931.872</strong></td>
+            <td class="tv"><strong>971.257</strong></td>
+            <td class="tv vdn"><strong>-4,1%</strong></td>
+          </tr>
+
+          <tr class="rs">
+            <td>Total do Ativo Não Circulante</td>
+            <td class="tv">27.108.571</td>
+            <td class="tv">19.934.413</td>
+            <td class="tv vup">+36,0%</td>
+          </tr>
+          <tr class="rt">
+            <td>TOTAL DO ATIVO</td>
+            <td class="tv">259.362.079</td>
+            <td class="tv">110.220.105</td>
+            <td class="tv">+135,3%</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="page-footer">
+        <div class="pf-signers">
+          Luiz Fernando Biasi Staskowian – Dir. Financeiro · CPF 069.463.829-35
+          &nbsp;|&nbsp; Raphael Luiz Rodrigues Ramos – Dir. Operacional · CPF
+          401.192.037-15 &nbsp;|&nbsp; Thiago Fernandes da Silva – Contador
+          CRC-RJ 129866/O-9 · CPF 341.012.238-90
+        </div>
+        <div style="display: flex; align-items: center; gap: 4px">
+          <svg class="pf-hex" viewBox="0 0 20 20">
+            <polygon
+              points="10,1 18,5.5 18,14.5 10,19 2,14.5 2,5.5"
+              fill="#5B52A0"
+            />
+          </svg>
+          <span>1</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+     PÁG. 2 – BALANÇO PATRIMONIAL · PASSIVO + PL
+═══════════════════════════════════════════════════════ -->
+    <div class="page">
+      <div class="page-header">
+        <div class="ph-left">
+          <div class="ph-hex">
+            <svg viewBox="0 0 32 32" fill="none">
+              <polygon points="16,2 29,9 29,23 16,30 3,23 3,9" fill="#5B52A0" />
+              <text
+                x="16"
+                y="21"
+                text-anchor="middle"
+                fill="white"
+                font-size="14"
+                font-weight="800"
+                font-family="Poppins,sans-serif"
+                font-style="italic"
+              >
+                A
+              </text>
+            </svg>
+          </div>
+          <div>
+            <div class="ph-company">PONTUAL FARMACÊUTICA NR 2006 LTDA</div>
+            <div class="ph-cnpj">
+              CNPJ n° 07.724.173/0001-00 · Valores expressos em Reais
+            </div>
+          </div>
+        </div>
+        <div class="ph-right">
+          Jan – Out 2025<br />Demonstrações Financeiras
+        </div>
+      </div>
+
+      <div class="section-title">
+        Balanço Patrimonial – Passivo e Patrimônio Líquido
+      </div>
+      <div class="section-sub">
+        Findo em 31 de outubro de 2025 · Comparativo: 31 de dezembro de 2024
+      </div>
+
+      <div class="hl-grid">
+        <div class="hl red">
+          <div class="hl-label">Passivo Circulante</div>
+          <div class="hl-value">R$ 219,9 MM</div>
+          <div class="hl-var neg">▲ +117,0% vs Dez/24</div>
+        </div>
+        <div class="hl red">
+          <div class="hl-label">Fornecedores</div>
+          <div class="hl-value">R$ 137,9 MM</div>
+          <div class="hl-var neg">▲ +117,4% vs Dez/24</div>
+        </div>
+        <div class="hl red">
+          <div class="hl-label">Empréstimos CP</div>
+          <div class="hl-value">R$ 70,8 MM</div>
+          <div class="hl-var neg">▲ +98,1% vs Dez/24</div>
+        </div>
+        <div class="hl green">
+          <div class="hl-label">Patrimônio Líquido</div>
+          <div class="hl-value">R$ 4,3 MM</div>
+          <div class="hl-var pos">▲ Reverteu déficit de R$ 5,6 MM</div>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 52%">DESCRIÇÃO</th>
+            <th style="width: 19%">Out/2025 · R$</th>
+            <th style="width: 19%">Dez/2024 · R$</th>
+            <th style="width: 10%">Var. %</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="rg">
+            <td>PASSIVO E PATRIMÔNIO LÍQUIDO</td>
+            <td class="tv"></td>
+            <td class="tv"></td>
+            <td class="tp"></td>
+          </tr>
+
+          <tr class="rs">
+            <td>Passivo Circulante</td>
+            <td class="tv"></td>
+            <td class="tv"></td>
+            <td class="tp"></td>
+          </tr>
+          <tr class="ri">
+            <td>Empréstimos e Financiamentos Nacionais</td>
+            <td class="tv">70.823.790</td>
+            <td class="tv">35.758.219</td>
+            <td class="tv vdn">+98,1%</td>
+          </tr>
+          <tr class="ri">
+            <td>Fornecedores</td>
+            <td class="tv">137.906.046</td>
+            <td class="tv">63.431.719</td>
+            <td class="tv vdn">+117,4%</td>
+          </tr>
+          <tr class="ri">
+            <td>Obrigações Trabalhistas</td>
+            <td class="tv">498.713</td>
+            <td class="tv">397.681</td>
+            <td class="tv vdn">+25,4%</td>
+          </tr>
+          <tr class="ri">
+            <td>Obrigações Fiscais</td>
+            <td class="tv">5.422.749</td>
+            <td class="tv">1.439.467</td>
+            <td class="tv vdn">+276,7%</td>
+          </tr>
+          <tr class="ri">
+            <td>Débitos com Pessoas Ligadas</td>
+            <td class="tv">4.782.072</td>
+            <td class="tv vnu">–</td>
+            <td class="tv vnu">n.a.</td>
+          </tr>
+          <tr class="ri">
+            <td>Outras Obrigações</td>
+            <td class="tv">476.938</td>
+            <td class="tv">325.192</td>
+            <td class="tv vdn">+46,7%</td>
+          </tr>
+          <tr class="rs">
+            <td>Total do Passivo Circulante</td>
+            <td class="tv">219.910.308</td>
+            <td class="tv">101.352.278</td>
+            <td class="tv vdn">+117,0%</td>
+          </tr>
+
+          <tr class="rs">
+            <td>Passivo Não Circulante</td>
+            <td class="tv"></td>
+            <td class="tv"></td>
+            <td class="tp"></td>
+          </tr>
+          <tr class="ri">
+            <td>Empréstimos e Financiamentos Nacionais</td>
+            <td class="tv">28.526.505</td>
+            <td class="tv">7.498.452</td>
+            <td class="tv vdn">+280,4%</td>
+          </tr>
+          <tr class="ri">
+            <td>Obrigações Fiscais Diferidas</td>
+            <td class="tv">6.618.273</td>
+            <td class="tv">6.618.273</td>
+            <td class="tv vnu">–</td>
+          </tr>
+          <tr class="ri">
+            <td>Provisões Diversas</td>
+            <td class="tv vnu">–</td>
+            <td class="tv">397.012</td>
+            <td class="tv vup">-100,0%</td>
+          </tr>
+          <tr class="rs">
+            <td>Total do Passivo Não Circulante</td>
+            <td class="tv">35.144.778</td>
+            <td class="tv">14.513.737</td>
+            <td class="tv vdn">+142,2%</td>
+          </tr>
+
+          <tr class="rg">
+            <td>Patrimônio Líquido</td>
+            <td class="tv"></td>
+            <td class="tv"></td>
+            <td class="tp"></td>
+          </tr>
+          <tr class="ri">
+            <td>Capital Social Integralizado</td>
+            <td class="tv">6.490.000</td>
+            <td class="tv">6.490.000</td>
+            <td class="tv vnu">–</td>
+          </tr>
+          <tr class="ri">
+            <td>Reservas de Lucros</td>
+            <td class="tv">35.855.092</td>
+            <td class="tv">35.855.092</td>
+            <td class="tv vnu">–</td>
+          </tr>
+          <tr class="ri">
+            <td>Resultados Acumulados</td>
+            <td class="tv neg">(47.991.002)</td>
+            <td class="tv neg">(42.363.068)</td>
+            <td class="tv vdn">-13,3%</td>
+          </tr>
+          <tr class="ri">
+            <td>Resultado do Exercício</td>
+            <td class="tv pos">9.952.903</td>
+            <td class="tv neg">(5.627.934)</td>
+            <td class="tv vup">n.a.</td>
+          </tr>
+          <tr class="rs">
+            <td>Total do Patrimônio Líquido</td>
+            <td class="tv pos">4.306.993</td>
+            <td class="tv neg">(5.645.910)</td>
+            <td class="tv vup">n.a.</td>
+          </tr>
+
+          <tr class="rt">
+            <td>TOTAL DO PASSIVO E PATRIMÔNIO LÍQUIDO</td>
+            <td class="tv">259.362.079</td>
+            <td class="tv">110.220.105</td>
+            <td class="tv">+135,3%</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="page-footer">
+        <div class="pf-signers">
+          Luiz Fernando Biasi Staskowian – Dir. Financeiro · CPF 069.463.829-35
+          &nbsp;|&nbsp; Raphael Luiz Rodrigues Ramos – Dir. Operacional · CPF
+          401.192.037-15 &nbsp;|&nbsp; Thiago Fernandes da Silva – Contador
+          CRC-RJ 129866/O-9 · CPF 341.012.238-90
+        </div>
+        <div style="display: flex; align-items: center; gap: 4px">
+          <svg class="pf-hex" viewBox="0 0 20 20">
+            <polygon
+              points="10,1 18,5.5 18,14.5 10,19 2,14.5 2,5.5"
+              fill="#5B52A0"
+            />
+          </svg>
+          <span>2</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+     PÁG. 3 – DRE
+═══════════════════════════════════════════════════════ -->
+    <div class="page">
+      <div class="page-header">
+        <div class="ph-left">
+          <div class="ph-hex">
+            <svg viewBox="0 0 32 32" fill="none">
+              <polygon points="16,2 29,9 29,23 16,30 3,23 3,9" fill="#5B52A0" />
+              <text
+                x="16"
+                y="21"
+                text-anchor="middle"
+                fill="white"
+                font-size="14"
+                font-weight="800"
+                font-family="Poppins,sans-serif"
+                font-style="italic"
+              >
+                A
+              </text>
+            </svg>
+          </div>
+          <div>
+            <div class="ph-company">PONTUAL FARMACÊUTICA NR 2006 LTDA</div>
+            <div class="ph-cnpj">
+              CNPJ n° 07.724.173/0001-00 · Valores expressos em Reais
+            </div>
+          </div>
+        </div>
+        <div class="ph-right">
+          Jan – Out 2025<br />Demonstrações Financeiras
+        </div>
+      </div>
+
+      <div class="section-title">
+        Demonstração do Resultado do Exercício – DRE
+      </div>
+      <div class="section-sub">
+        Acumulado de Janeiro a Outubro de 2025 · Comparativo: Janeiro a Outubro
+        de 2024
+      </div>
+
+      <div class="hl-grid">
+        <div class="hl green">
+          <div class="hl-label">Receita Bruta</div>
+          <div class="hl-value">R$ 534,6 MM</div>
+          <div class="hl-var pos">▲ +140,7% vs 2024</div>
+        </div>
+        <div class="hl green">
+          <div class="hl-label">Lucro Bruto</div>
+          <div class="hl-value">R$ 31,8 MM</div>
+          <div class="hl-var pos">▲ Margem 6,7% (5,2% em 2024)</div>
+        </div>
+        <div class="hl green">
+          <div class="hl-label">EBITDA</div>
+          <div class="hl-value">R$ 15,9 MM</div>
+          <div class="hl-var pos">▲ Margem 3,4% vs -0,6% 2024</div>
+        </div>
+        <div class="hl green">
+          <div class="hl-label">Resultado Líquido</div>
+          <div class="hl-value">R$ 9,95 MM</div>
+          <div class="hl-var pos">▲ Reverteu (R$ 6,1 MM) em 2024</div>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 46%">DESCRIÇÃO</th>
+            <th style="width: 16%">Jan–Out 2025<br />R$</th>
+            <th style="width: 8%">% RL</th>
+            <th style="width: 16%">Jan–Out 2024<br />R$</th>
+            <th style="width: 8%">% RL</th>
+            <th style="width: 6%">Var.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="ri">
+            <td>Receita Bruta de Vendas e Serviços</td>
+            <td class="tv">534.643.159</td>
+            <td class="tp">112,8%</td>
+            <td class="tv">222.137.695</td>
+            <td class="tp">112,1%</td>
+            <td class="tv vup">+140,7%</td>
+          </tr>
+          <tr class="ri">
+            <td>(-) Devoluções, Cancelamentos e Descontos</td>
+            <td class="tv neg">(35.289.808)</td>
+            <td class="tp">-7,4%</td>
+            <td class="tv neg">(15.000.792)</td>
+            <td class="tp">-7,6%</td>
+            <td class="tv vdn">+135,3%</td>
+          </tr>
+          <tr class="ri">
+            <td>(-) Impostos Sobre a Receita</td>
+            <td class="tv neg">(25.502.191)</td>
+            <td class="tp">-5,4%</td>
+            <td class="tv neg">(8.976.368)</td>
+            <td class="tp">-4,5%</td>
+            <td class="tv vdn">+184,1%</td>
+          </tr>
+          <tr class="rs">
+            <td>Receita Líquida</td>
+            <td class="tv">473.851.160</td>
+            <td class="tp">100,0%</td>
+            <td class="tv">198.160.535</td>
+            <td class="tp">100,0%</td>
+            <td class="tv vup">+139,1%</td>
+          </tr>
+          <tr class="ri">
+            <td>(-) Custo das Mercadorias e Serviços Vendidos</td>
+            <td class="tv neg">(442.084.983)</td>
+            <td class="tp">-93,3%</td>
+            <td class="tv neg">(187.929.094)</td>
+            <td class="tp">-94,8%</td>
+            <td class="tv vdn">+135,2%</td>
+          </tr>
+          <tr class="rs">
+            <td>Lucro Bruto</td>
+            <td class="tv pos">31.766.177</td>
+            <td class="tp" style="color: var(--green)">6,7%</td>
+            <td class="tv pos">10.231.441</td>
+            <td class="tp" style="color: var(--green)">5,2%</td>
+            <td class="tv vup">+210,5%</td>
+          </tr>
+
+          <tr>
+            <td
+              colspan="6"
+              style="
+                padding: 4px 8px;
+                font-weight: 600;
+                color: var(--purple);
+                font-size: 7.5pt;
+              "
+            >
+              Despesas Operacionais
+            </td>
+          </tr>
+          <tr class="ri">
+            <td>(-) Desp. de Logística e Distribuição</td>
+            <td class="tv neg">(6.875.290)</td>
+            <td class="tp">-1,5%</td>
+            <td class="tv neg">(3.824.138)</td>
+            <td class="tp">-1,9%</td>
+            <td class="tv vdn">+79,8%</td>
+          </tr>
+          <tr class="ri">
+            <td>(-) Despesas Comerciais</td>
+            <td class="tv neg">(4.337.964)</td>
+            <td class="tp">-0,9%</td>
+            <td class="tv neg">(2.020.636)</td>
+            <td class="tp">-1,0%</td>
+            <td class="tv vdn">+114,7%</td>
+          </tr>
+          <tr class="ri">
+            <td>(-) Despesas Administrativas</td>
+            <td class="tv neg">(4.620.384)</td>
+            <td class="tp">-1,0%</td>
+            <td class="tv neg">(5.527.096)</td>
+            <td class="tp">-2,8%</td>
+            <td class="tv vup">-16,4%</td>
+          </tr>
+          <tr class="ri">
+            <td>(-) Outras Despesas Operacionais</td>
+            <td class="tv neg">(5.157)</td>
+            <td class="tp">–</td>
+            <td class="tv vnu">–</td>
+            <td class="tp">–</td>
+            <td class="tv vnu">–</td>
+          </tr>
+          <tr class="re">
+            <td>(=) EBITDA · Resultado Operacional</td>
+            <td class="tv">15.927.382</td>
+            <td class="tp" style="color: #a8e6c3">3,4%</td>
+            <td class="tv neg">(1.140.430)</td>
+            <td class="tp" style="color: #ffb3b3">-0,6%</td>
+            <td class="tv" style="color: #a8e6c3">n.a.</td>
+          </tr>
+
+          <tr>
+            <td
+              colspan="6"
+              style="
+                padding: 4px 8px;
+                font-weight: 600;
+                color: var(--purple);
+                font-size: 7.5pt;
+              "
+            >
+              Resultado Financeiro e Não Operacional
+            </td>
+          </tr>
+          <tr class="ri">
+            <td>Outras Receitas / Despesas Não Operacionais</td>
+            <td class="tv pos">1.142.368</td>
+            <td class="tp">0,2%</td>
+            <td class="tv pos">80.461</td>
+            <td class="tp">0,0%</td>
+            <td class="tv vup">+1.320,7%</td>
+          </tr>
+          <tr class="ri">
+            <td>(-) Amortizações e Depreciações</td>
+            <td class="tv neg">(172.113)</td>
+            <td class="tp">0,0%</td>
+            <td class="tv neg">(204.555)</td>
+            <td class="tp">-0,1%</td>
+            <td class="tv vup">-15,9%</td>
+          </tr>
+          <tr class="ri">
+            <td>Receitas Financeiras</td>
+            <td class="tv pos">510.565</td>
+            <td class="tp">0,1%</td>
+            <td class="tv pos">372.284</td>
+            <td class="tp">0,2%</td>
+            <td class="tv vup">+37,1%</td>
+          </tr>
+          <tr class="ri">
+            <td>(-) Despesas Financeiras</td>
+            <td class="tv neg">(16.094.592)</td>
+            <td class="tp">-3,4%</td>
+            <td class="tv neg">(6.849.076)</td>
+            <td class="tp">-3,5%</td>
+            <td class="tv vdn">+135,0%</td>
+          </tr>
+          <tr class="rs">
+            <td>(=) Resultado Antes dos Impostos e Contribuições</td>
+            <td class="tv pos">1.313.611</td>
+            <td class="tp" style="color: var(--green)">0,3%</td>
+            <td class="tv neg">(7.741.317)</td>
+            <td class="tp" style="color: var(--red)">-3,9%</td>
+            <td class="tv vup">n.a.</td>
+          </tr>
+
+          <tr>
+            <td
+              colspan="6"
+              style="
+                padding: 4px 8px;
+                font-weight: 600;
+                color: var(--purple);
+                font-size: 7.5pt;
+              "
+            >
+              Impostos sobre o Lucro
+            </td>
+          </tr>
+          <tr class="ri">
+            <td>(-) IRPJ – Corrente</td>
+            <td class="tv neg">(272.418)</td>
+            <td class="tp">-0,1%</td>
+            <td class="tv pos">1.188.179</td>
+            <td class="tp">0,6%</td>
+            <td class="tv vnu">n.a.</td>
+          </tr>
+          <tr class="ri">
+            <td>(-) CSLL – Corrente</td>
+            <td class="tv neg">(104.551)</td>
+            <td class="tp">0,0%</td>
+            <td class="tv pos">443.294</td>
+            <td class="tp">0,2%</td>
+            <td class="tv vnu">n.a.</td>
+          </tr>
+          <tr class="ri">
+            <td>IRPJ Diferido</td>
+            <td class="tv pos">6.045.763</td>
+            <td class="tp" style="color: var(--green)">1,3%</td>
+            <td class="tv vnu">–</td>
+            <td class="tp">–</td>
+            <td class="tv vnu">n.a.</td>
+          </tr>
+          <tr class="ri">
+            <td>CSLL Diferido</td>
+            <td class="tv pos">2.970.499</td>
+            <td class="tp" style="color: var(--green)">0,6%</td>
+            <td class="tv vnu">–</td>
+            <td class="tp">–</td>
+            <td class="tv vnu">n.a.</td>
+          </tr>
+          <tr class="rr">
+            <td>RESULTADO DO EXERCÍCIO</td>
+            <td class="tv">9.952.903</td>
+            <td class="tp" style="color: #a8e6c3">2,1%</td>
+            <td class="tv neg">(6.109.844)</td>
+            <td class="tp" style="color: #ffb3b3">-3,1%</td>
+            <td class="tv" style="color: #a8e6c3">n.a.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="page-footer">
+        <div class="pf-signers">
+          Luiz Fernando Biasi Staskowian – Dir. Financeiro · CPF 069.463.829-35
+          &nbsp;|&nbsp; Raphael Luiz Rodrigues Ramos – Dir. Operacional · CPF
+          401.192.037-15 &nbsp;|&nbsp; Thiago Fernandes da Silva – Contador
+          CRC-RJ 129866/O-9 · CPF 341.012.238-90
+        </div>
+        <div style="display: flex; align-items: center; gap: 4px">
+          <svg class="pf-hex" viewBox="0 0 20 20">
+            <polygon
+              points="10,1 18,5.5 18,14.5 10,19 2,14.5 2,5.5"
+              fill="#5B52A0"
+            />
+          </svg>
+          <span>3</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+     PÁG. 4 – DMPL + DFC
+═══════════════════════════════════════════════════════ -->
+    <div class="page">
+      <div class="page-header">
+        <div class="ph-left">
+          <div class="ph-hex">
+            <svg viewBox="0 0 32 32" fill="none">
+              <polygon points="16,2 29,9 29,23 16,30 3,23 3,9" fill="#5B52A0" />
+              <text
+                x="16"
+                y="21"
+                text-anchor="middle"
+                fill="white"
+                font-size="14"
+                font-weight="800"
+                font-family="Poppins,sans-serif"
+                font-style="italic"
+              >
+                A
+              </text>
+            </svg>
+          </div>
+          <div>
+            <div class="ph-company">PONTUAL FARMACÊUTICA NR 2006 LTDA</div>
+            <div class="ph-cnpj">
+              CNPJ n° 07.724.173/0001-00 · Valores expressos em Reais
+            </div>
+          </div>
+        </div>
+        <div class="ph-right">
+          Jan – Out 2025<br />Demonstrações Financeiras
+        </div>
+      </div>
+
+      <!-- DMPL -->
+      <div class="section-title">
+        Demonstração das Mutações do Patrimônio Líquido – DMPL
+      </div>
+      <div class="section-sub">
+        Exercícios findos em 31/12/2024 e 31/10/2025
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 34%; text-align: left">DESCRIÇÃO</th>
+            <th style="width: 16%">Capital Social<br />R$</th>
+            <th style="width: 16%">Reservas de<br />Lucros R$</th>
+            <th style="width: 18%">Lucros/Prejuízos<br />Acumulados R$</th>
+            <th style="width: 16%">Total PL<br />R$</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="rs">
+            <td>Saldos em 31 de dezembro de 2023</td>
+            <td class="tv">480.000</td>
+            <td class="tv vnu">–</td>
+            <td class="tv neg">(6.513.185)</td>
+            <td class="tv neg">(6.033.185)</td>
+          </tr>
+          <tr>
+            <td
+              colspan="5"
+              style="
+                padding: 3px 8px;
+                font-weight: 600;
+                color: var(--purple);
+                font-size: 7.5pt;
+                background: var(--purple-light);
+              "
+            >
+              Movimentação – Exercício 2024
+            </td>
+          </tr>
+          <tr class="ri">
+            <td>Integralização de Capital Social</td>
+            <td class="tv pos">6.010.000</td>
+            <td class="tv vnu">–</td>
+            <td class="tv vnu">–</td>
+            <td class="tv pos">6.010.000</td>
+          </tr>
+          <tr class="ri">
+            <td>Ajuste de Exercício Anterior</td>
+            <td class="tv vnu">–</td>
+            <td class="tv vnu">–</td>
+            <td class="tv neg">(35.849.883)</td>
+            <td class="tv neg">(35.849.883)</td>
+          </tr>
+          <tr class="ri">
+            <td>Constituição de Reserva de Lucros</td>
+            <td class="tv vnu">–</td>
+            <td class="tv pos">35.855.092</td>
+            <td class="tv vnu">–</td>
+            <td class="tv pos">35.855.092</td>
+          </tr>
+          <tr class="ri">
+            <td>Resultado do Exercício</td>
+            <td class="tv vnu">–</td>
+            <td class="tv vnu">–</td>
+            <td class="tv neg">(5.627.934)</td>
+            <td class="tv neg">(5.627.934)</td>
+          </tr>
+          <tr class="rs">
+            <td>Saldos em 31 de dezembro de 2024</td>
+            <td class="tv">6.490.000</td>
+            <td class="tv">35.855.092</td>
+            <td class="tv neg">(47.991.002)</td>
+            <td class="tv neg">(5.645.910)</td>
+          </tr>
+          <tr>
+            <td
+              colspan="5"
+              style="
+                padding: 3px 8px;
+                font-weight: 600;
+                color: var(--purple);
+                font-size: 7.5pt;
+                background: var(--purple-light);
+              "
+            >
+              Movimentação – Janeiro a Outubro de 2025
+            </td>
+          </tr>
+          <tr class="ri">
+            <td>Resultado do Exercício (Jan–Out 2025)</td>
+            <td class="tv vnu">–</td>
+            <td class="tv vnu">–</td>
+            <td class="tv pos">9.952.903</td>
+            <td class="tv pos">9.952.903</td>
+          </tr>
+          <tr class="rt">
+            <td>Saldo em 31 de outubro de 2025</td>
+            <td class="tv">6.490.000</td>
+            <td class="tv">35.855.092</td>
+            <td class="tv neg">(38.038.099)</td>
+            <td class="tv pos">4.306.993</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- DFC -->
+      <div class="section-title" style="margin-top: 12px">
+        Demonstração dos Fluxos de Caixa – DFC
+      </div>
+      <div class="section-sub">
+        Método Indireto · Acumulado Jan–Out 2025 | Comparativo: Exercício 2024
+      </div>
+
+      <div class="hl-grid cols-3" style="margin-bottom: 8px">
+        <div class="hl red">
+          <div class="hl-label">Caixa Operacional</div>
+          <div class="hl-value">(R$ 63,2 MM)</div>
+          <div class="hl-var neg">▼ Expansão do giro</div>
+        </div>
+        <div class="hl">
+          <div class="hl-label">Caixa de Financiamentos</div>
+          <div class="hl-value">R$ 62,1 MM</div>
+          <div class="hl-var pos">▲ Captações líquidas</div>
+        </div>
+        <div class="hl red">
+          <div class="hl-label">Variação de Caixa</div>
+          <div class="hl-value">(R$ 1,67 MM)</div>
+          <div class="hl-var neg">▼ Saldo final R$ 1,24 MM</div>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 60%; text-align: left">DESCRIÇÃO</th>
+            <th style="width: 20%">Jan–Out 2025 · R$</th>
+            <th style="width: 20%">Exercício 2024 · R$</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="rg">
+            <td>Atividades Operacionais</td>
+            <td class="tv"></td>
+            <td class="tv"></td>
+          </tr>
+          <tr class="ri">
+            <td>Lucro / Prejuízo Líquido</td>
+            <td class="tv pos">9.952.903</td>
+            <td class="tv neg">(5.627.934)</td>
+          </tr>
+          <tr class="ri">
+            <td>Depreciação e Amortização</td>
+            <td class="tv">172.113</td>
+            <td class="tv">249.553</td>
+          </tr>
+          <tr class="ri">
+            <td>Variação em Provisões / Obrigações Fiscais</td>
+            <td class="tv">2.200.150</td>
+            <td class="tv neg">(2.205.622)</td>
+          </tr>
+          <tr class="ri">
+            <td>Variação em Clientes</td>
+            <td class="tv neg">(86.537.846)</td>
+            <td class="tv neg">(21.602.117)</td>
+          </tr>
+          <tr class="ri">
+            <td>Variação em Estoques</td>
+            <td class="tv neg">(46.190.981)</td>
+            <td class="tv neg">(22.667.153)</td>
+          </tr>
+          <tr class="ri">
+            <td>Variação em Outros Ativos Circulantes</td>
+            <td class="tv neg">(10.911.271)</td>
+            <td class="tv neg">(4.243.577)</td>
+          </tr>
+          <tr class="ri">
+            <td>Variação em Realizável a Longo Prazo</td>
+            <td class="tv neg">(15.423.693)</td>
+            <td class="tv neg">(1.063.213)</td>
+          </tr>
+          <tr class="ri">
+            <td>Variação em Fornecedores</td>
+            <td class="tv pos">74.474.326</td>
+            <td class="tv pos">39.867.398</td>
+          </tr>
+          <tr class="ri">
+            <td>Variação em Obrigações (Trab., Fiscais e Outras)</td>
+            <td class="tv pos">9.018.132</td>
+            <td class="tv pos">980.389</td>
+          </tr>
+          <tr class="rs">
+            <td>Caixa Líquido nas Atividades Operacionais</td>
+            <td class="tv neg">(63.246.267)</td>
+            <td class="tv neg">(16.311.276)</td>
+          </tr>
+
+          <tr class="rg">
+            <td>Atividades de Investimentos</td>
+            <td class="tv"></td>
+            <td class="tv"></td>
+          </tr>
+          <tr class="ri">
+            <td>Aquisição de Ativo Imobilizado e Intangível</td>
+            <td class="tv neg">(146.568)</td>
+            <td class="tv neg">(101.342)</td>
+          </tr>
+          <tr class="ri">
+            <td>Baixas de Bens</td>
+            <td class="tv">13.839</td>
+            <td class="tv neg">(89.539)</td>
+          </tr>
+          <tr class="rs">
+            <td>Caixa Líquido nas Atividades de Investimentos</td>
+            <td class="tv neg">(132.729)</td>
+            <td class="tv neg">(76.297)</td>
+          </tr>
+
+          <tr class="rg">
+            <td>Atividades de Financiamentos</td>
+            <td class="tv"></td>
+            <td class="tv"></td>
+          </tr>
+          <tr class="ri">
+            <td>Captação de Empréstimos e Financiamentos</td>
+            <td class="tv pos">137.490.486</td>
+            <td class="tv pos">43.573.093</td>
+          </tr>
+          <tr class="ri">
+            <td>Amortização de Empréstimos – Principal</td>
+            <td class="tv neg">(21.238.340)</td>
+            <td class="tv neg">(17.848.285)</td>
+          </tr>
+          <tr class="ri">
+            <td>Pagamento de Juros</td>
+            <td class="tv neg">(4.064.897)</td>
+            <td class="tv pos">2.091.288</td>
+          </tr>
+          <tr class="ri">
+            <td>Resultado de Incorporação</td>
+            <td class="tv pos">6.010.000</td>
+            <td class="tv vnu">–</td>
+          </tr>
+          <tr class="rs">
+            <td>Caixa Líquido nas Atividades de Financiamentos</td>
+            <td class="tv pos">62.103.624</td>
+            <td class="tv pos">16.603.462</td>
+          </tr>
+
+          <tr class="rt">
+            <td>Variação Líquida de Caixa e Equivalentes</td>
+            <td class="tv neg">(1.672.283)</td>
+            <td class="tv pos">220.098</td>
+          </tr>
+          <tr class="ri">
+            <td>Saldo Inicial de Caixa e Equivalentes</td>
+            <td class="tv">2.917.215</td>
+            <td class="tv">2.697.117</td>
+          </tr>
+          <tr class="ri">
+            <td>Saldo Final de Caixa e Equivalentes</td>
+            <td class="tv">1.244.932</td>
+            <td class="tv">2.917.215</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="page-footer">
+        <div class="pf-signers">
+          Luiz Fernando Biasi Staskowian – Dir. Financeiro · CPF 069.463.829-35
+          &nbsp;|&nbsp; Raphael Luiz Rodrigues Ramos – Dir. Operacional · CPF
+          401.192.037-15 &nbsp;|&nbsp; Thiago Fernandes da Silva – Contador
+          CRC-RJ 129866/O-9 · CPF 341.012.238-90
+        </div>
+        <div style="display: flex; align-items: center; gap: 4px">
+          <svg class="pf-hex" viewBox="0 0 20 20">
+            <polygon
+              points="10,1 18,5.5 18,14.5 10,19 2,14.5 2,5.5"
+              fill="#5B52A0"
+            />
+          </svg>
+          <span>4</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+     PÁG. 5 – INDICADORES: ENDIVIDAMENTO & ALAVANCAGEM
+═══════════════════════════════════════════════════════ -->
+    <div class="page">
+      <div class="page-header">
+        <div class="ph-left">
+          <div class="ph-hex">
+            <svg viewBox="0 0 32 32" fill="none">
+              <polygon points="16,2 29,9 29,23 16,30 3,23 3,9" fill="#5B52A0" />
+              <text
+                x="16"
+                y="21"
+                text-anchor="middle"
+                fill="white"
+                font-size="14"
+                font-weight="800"
+                font-family="Poppins,sans-serif"
+                font-style="italic"
+              >
+                A
+              </text>
+            </svg>
+          </div>
+          <div>
+            <div class="ph-company">PONTUAL FARMACÊUTICA NR 2006 LTDA</div>
+            <div class="ph-cnpj">
+              CNPJ n° 07.724.173/0001-00 · Valores expressos em Reais
+            </div>
+          </div>
+        </div>
+        <div class="ph-right">
+          Jan – Out 2025<br />Indicadores de Desempenho
+        </div>
+      </div>
+
+      <!-- ── ENDIVIDAMENTO ─────────────────────────────────── -->
+      <div class="section-title">Indicadores de Endividamento</div>
+      <div class="section-sub">Posição em 31/10/2025 vs. 31/12/2024</div>
+
+      <!-- Cards principais -->
+      <div
+        style="
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
+          margin-bottom: 10px;
+        "
+      >
+        <div class="ind-card">
+          <div class="ind-label">Dívida Bruta</div>
+          <div class="ind-value" style="color: var(--red)">R$ 99,4 MM</div>
+          <div class="ind-compare">Dez/24: <strong>R$ 43,3 MM</strong></div>
+          <div class="ind-bar-wrap">
+            <div class="ind-bar-track">
+              <div
+                class="ind-bar-fill"
+                style="width: 100%; background: var(--red)"
+              ></div>
+            </div>
+            <div class="ind-bar-track" style="margin-top: 3px; opacity: 0.45">
+              <div
+                class="ind-bar-fill"
+                style="width: 43.6%; background: var(--red)"
+              ></div>
+            </div>
+          </div>
+          <div class="ind-legend">
+            <span style="background: var(--red)"></span>Out/25 &nbsp;<span
+              style="background: var(--red); opacity: 0.45"
+            ></span
+            >Dez/24
+          </div>
+        </div>
+
+        <div class="ind-card">
+          <div class="ind-label">
+            Dívida Líquida
+            <span style="font-size: 6pt; font-weight: 400"
+              >(Dív. Bruta − Caixa)</span
+            >
+          </div>
+          <div class="ind-value" style="color: var(--red)">R$ 98,1 MM</div>
+          <div class="ind-compare">Dez/24: <strong>R$ 40,3 MM</strong></div>
+          <div class="ind-bar-wrap">
+            <div class="ind-bar-track">
+              <div
+                class="ind-bar-fill"
+                style="width: 100%; background: #b03060"
+              ></div>
+            </div>
+            <div class="ind-bar-track" style="margin-top: 3px; opacity: 0.45">
+              <div
+                class="ind-bar-fill"
+                style="width: 41.1%; background: #b03060"
+              ></div>
+            </div>
+          </div>
+          <div class="ind-legend">
+            <span style="background: #b03060"></span>Out/25 &nbsp;<span
+              style="background: #b03060; opacity: 0.45"
+            ></span
+            >Dez/24
+          </div>
+        </div>
+
+        <div class="ind-card">
+          <div class="ind-label">Patrimônio Líquido</div>
+          <div class="ind-value pos">R$ 4,3 MM</div>
+          <div class="ind-compare">
+            Dez/24: <strong class="neg">(R$ 5,6 MM)</strong>
+          </div>
+          <div style="margin-top: 8px; text-align: center">
+            <div
+              style="
+                display: inline-block;
+                background: #eaf5f0;
+                border: 2px solid var(--green);
+                border-radius: 8px;
+                padding: 6px 14px;
+                font-size: 8pt;
+                font-weight: 700;
+                color: var(--green);
+              "
+            >
+              ▲ Reverteu déficit patrimonial
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Composição da Dívida e Endividamento Geral -->
+      <div
+        style="
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+          margin-bottom: 10px;
+        "
+      >
+        <!-- Composição da dívida -->
+        <div class="ind-card">
+          <div class="ind-label" style="margin-bottom: 8px">
+            Composição da Dívida (CP vs LP)
+          </div>
+          <!-- Out 2025 -->
+          <div
+            style="font-size: 7pt; color: var(--text-muted); margin-bottom: 3px"
+          >
+            Out/2025 — Dívida Total: R$ 99,4 MM
+          </div>
+          <div
+            style="
+              display: flex;
+              height: 22px;
+              border-radius: 5px;
+              overflow: hidden;
+              margin-bottom: 5px;
+            "
+          >
+            <div
+              style="
+                width: 71.3%;
+                background: #c0392b;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 7pt;
+                font-weight: 700;
+              "
+            >
+              CP 71,3%
+            </div>
+            <div
+              style="
+                width: 28.7%;
+                background: #8b1a2e;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 7pt;
+                font-weight: 700;
+              "
+            >
+              LP 28,7%
+            </div>
+          </div>
+          <!-- Dez 2024 -->
+          <div
+            style="font-size: 7pt; color: var(--text-muted); margin-bottom: 3px"
+          >
+            Dez/2024 — Dívida Total: R$ 43,3 MM
+          </div>
+          <div
+            style="
+              display: flex;
+              height: 22px;
+              border-radius: 5px;
+              overflow: hidden;
+              margin-bottom: 8px;
+            "
+          >
+            <div
+              style="
+                width: 82.7%;
+                background: #e57373;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 7pt;
+                font-weight: 700;
+              "
+            >
+              CP 82,7%
+            </div>
+            <div
+              style="
+                width: 17.3%;
+                background: #c0392b;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 7pt;
+                font-weight: 700;
+              "
+            >
+              LP 17,3%
+            </div>
+          </div>
+          <div
+            style="
+              font-size: 6.5pt;
+              color: var(--text-muted);
+              border-top: 1px dashed #ddd;
+              padding-top: 5px;
+            "
+          >
+            ℹ️ A dívida de LP cresceu de 17,3% para 28,7% — melhora no perfil de
+            vencimentos.
+          </div>
+        </div>
+
+        <!-- Endividamento sobre Ativo e Passivo -->
+        <div class="ind-card">
+          <div class="ind-label" style="margin-bottom: 8px">
+            Estrutura de Capital
+          </div>
+
+          <div style="margin-bottom: 7px">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 2px;
+              "
+            >
+              <span style="font-size: 7.5pt; color: var(--text)"
+                >Endividamento Geral
+                <span style="font-size: 6.5pt; color: var(--text-muted)"
+                  >(Passivo/Ativo)</span
+                ></span
+              >
+              <span
+                style="font-size: 8pt; font-weight: 700; color: var(--amber)"
+                >98,3%</span
+              >
+            </div>
+            <div
+              style="
+                height: 10px;
+                background: #eee;
+                border-radius: 5px;
+                overflow: hidden;
+              "
+            >
+              <div
+                style="
+                  width: 98.3%;
+                  height: 100%;
+                  background: linear-gradient(90deg, var(--amber), #d4960a);
+                  border-radius: 5px;
+                "
+              ></div>
+            </div>
+            <div
+              style="
+                font-size: 6.5pt;
+                color: var(--text-muted);
+                margin-top: 1px;
+                text-align: right;
+              "
+            >
+              Dez/24: 105,1% (PL negativo) → melhora de 6,8 p.p.
+            </div>
+          </div>
+
+          <div style="margin-bottom: 7px">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 2px;
+              "
+            >
+              <span style="font-size: 7.5pt; color: var(--text)"
+                >Passivo CP / Passivo Total</span
+              >
+              <span style="font-size: 8pt; font-weight: 700; color: var(--red)"
+                >86,2%</span
+              >
+            </div>
+            <div
+              style="
+                height: 10px;
+                background: #eee;
+                border-radius: 5px;
+                overflow: hidden;
+              "
+            >
+              <div
+                style="
+                  width: 86.2%;
+                  height: 100%;
+                  background: linear-gradient(90deg, var(--red), #a93226);
+                  border-radius: 5px;
+                "
+              ></div>
+            </div>
+            <div
+              style="
+                font-size: 6.5pt;
+                color: var(--text-muted);
+                margin-top: 1px;
+                text-align: right;
+              "
+            >
+              Dez/24: 87,5% → concentração de CP levemente reduzida
+            </div>
+          </div>
+
+          <div>
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 2px;
+              "
+            >
+              <span style="font-size: 7.5pt; color: var(--text)"
+                >Capital Próprio / Ativo Total</span
+              >
+              <span
+                style="font-size: 8pt; font-weight: 700; color: var(--green)"
+                >1,7%</span
+              >
+            </div>
+            <div
+              style="
+                height: 10px;
+                background: #eee;
+                border-radius: 5px;
+                overflow: hidden;
+              "
+            >
+              <div
+                style="
+                  width: 1.7%;
+                  height: 100%;
+                  background: linear-gradient(90deg, var(--green), #1a5c38);
+                  border-radius: 5px;
+                "
+              ></div>
+            </div>
+            <div
+              style="
+                font-size: 6.5pt;
+                color: var(--text-muted);
+                margin-top: 1px;
+                text-align: right;
+              "
+            >
+              Dez/24: negativo → reversão do déficit patrimonial em 2025
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ALAVANCAGEM ────────────────────────────────────── -->
+      <div class="section-title" style="margin-top: 12px">
+        Indicadores de Alavancagem
+      </div>
+      <div class="section-sub">
+        Baseado em EBITDA anualizado (12 meses) de R$ 19,1 MM | Jan–Out 2025
+      </div>
+
+      <div
+        style="
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 8px;
+          margin-bottom: 10px;
+        "
+      >
+        <div class="ind-card ind-kpi">
+          <div
+            class="ikpi-icon"
+            style="background: #fbf4e5; color: var(--amber)"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+              />
+            </svg>
+          </div>
+          <div class="ind-label">Dív. Líq. / EBITDA</div>
+          <div class="ind-value" style="color: var(--amber)">5,13x</div>
+          <div class="ind-compare">EBITDA anualizado</div>
+          <div class="ikpi-status amber">⚠ Alavancagem elevada</div>
+        </div>
+
+        <div class="ind-card ind-kpi">
+          <div class="ikpi-icon" style="background: #faeaea; color: var(--red)">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 8v4l3 3" />
+            </svg>
+          </div>
+          <div class="ind-label">Cobertura de Juros</div>
+          <div class="ind-value" style="color: var(--red)">0,99x</div>
+          <div class="ind-compare">
+            Jan-Out24: <strong class="neg">−0,17x</strong>
+          </div>
+          <div class="ikpi-status red">↑ Melhora significativa</div>
+        </div>
+
+        <div class="ind-card ind-kpi">
+          <div
+            class="ikpi-icon"
+            style="background: var(--purple-light); color: var(--purple)"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M3 3h18v18H3z" />
+              <path d="M3 9h18M9 21V9" />
+            </svg>
+          </div>
+          <div class="ind-label">Alav. Financeira (AT/PL)</div>
+          <div class="ind-value" style="color: var(--purple)">60,2x</div>
+          <div class="ind-compare">Reflexo do PL reduzido</div>
+          <div class="ikpi-status purple">Monitorar evolução do PL</div>
+        </div>
+
+        <div class="ind-card ind-kpi">
+          <div
+            class="ikpi-icon"
+            style="background: #eaf5f0; color: var(--green)"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+              <polyline points="16 7 22 7 22 13" />
+            </svg>
+          </div>
+          <div class="ind-label">Margem EBITDA</div>
+          <div class="ind-value pos">3,4%</div>
+          <div class="ind-compare">
+            Jan-Out24: <strong class="neg">−0,6%</strong>
+          </div>
+          <div class="ikpi-status green">✓ Reversão operacional</div>
+        </div>
+      </div>
+
+      <!-- Tabela resumo dos indicadores -->
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 44%; text-align: left">INDICADOR</th>
+            <th style="width: 16%">Out/2025</th>
+            <th style="width: 16%">Dez/2024</th>
+            <th style="width: 24%">Interpretação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="rg">
+            <td colspan="4">Endividamento</td>
+          </tr>
+          <tr class="ri">
+            <td>Dívida Bruta Total</td>
+            <td class="tv neg">R$ 99.350.295</td>
+            <td class="tv neg">R$ 43.256.670</td>
+            <td class="tp">Crescimento de 129,7%</td>
+          </tr>
+          <tr class="ri">
+            <td>Dívida Líquida (Dív. Bruta − Caixa)</td>
+            <td class="tv neg">R$ 98.105.363</td>
+            <td class="tv neg">R$ 40.339.455</td>
+            <td class="tp">Expansão do volume operacional</td>
+          </tr>
+          <tr class="ri">
+            <td>Endividamento Geral (Passivo/Ativo)</td>
+            <td class="tv" style="color: var(--amber); font-weight: 700">
+              98,3%
+            </td>
+            <td class="tv neg">105,1%</td>
+            <td class="tp">Melhora com reversão do PL</td>
+          </tr>
+          <tr class="ri">
+            <td>Composição CP (Pass. Circ./Pass. Total)</td>
+            <td class="tv neg">86,2%</td>
+            <td class="tv neg">87,5%</td>
+            <td class="tp">Dívida ainda concentrada no CP</td>
+          </tr>
+          <tr class="ri">
+            <td>Participação CP / Dívida Financeira</td>
+            <td class="tv" style="color: var(--amber); font-weight: 700">
+              71,3%
+            </td>
+            <td class="tv neg">82,7%</td>
+            <td class="tp">Perfil de LP melhorou</td>
+          </tr>
+          <tr class="ri">
+            <td>Capital Próprio / Ativo Total</td>
+            <td class="tv pos">1,7%</td>
+            <td class="tv neg">negativo</td>
+            <td class="tp">Reversão do déficit patrimonial</td>
+          </tr>
+
+          <tr class="rg">
+            <td colspan="4">Alavancagem</td>
+          </tr>
+          <tr class="ri">
+            <td>Dívida Líquida / EBITDA (anualizado)</td>
+            <td class="tv" style="color: var(--amber); font-weight: 700">
+              5,13x
+            </td>
+            <td class="tv neg">n.a. (EBITDA neg.)</td>
+            <td class="tp">Meta ideal: abaixo de 3,0x</td>
+          </tr>
+          <tr class="ri">
+            <td>Dívida Líquida / Receita Líquida</td>
+            <td class="tv" style="color: var(--amber)">20,7%</td>
+            <td class="tv">20,4%</td>
+            <td class="tp">Estável em relação à receita</td>
+          </tr>
+          <tr class="ri">
+            <td>Cobertura de Juros (EBITDA/Desp. Fin.)</td>
+            <td class="tv" style="color: var(--amber); font-weight: 700">
+              0,99x
+            </td>
+            <td class="tv neg">−0,17x</td>
+            <td class="tp">Abaixo de 1x — monitorar</td>
+          </tr>
+          <tr class="ri">
+            <td>EBITDA Acumulado (Jan–Out 2025)</td>
+            <td class="tv pos">R$ 15.927.382</td>
+            <td class="tv neg">(R$ 1.140.430)</td>
+            <td class="tp">Reversão operacional positiva</td>
+          </tr>
+          <tr class="ri">
+            <td>EBITDA Anualizado (×12/10)</td>
+            <td class="tv pos">R$ 19.112.859</td>
+            <td class="tv neg">n.a.</td>
+            <td class="tp">Base para projeções 2025</td>
+          </tr>
+          <tr class="ri">
+            <td>Giro do Ativo (RL/Ativo Total)</td>
+            <td class="tv pos">1,83x</td>
+            <td class="tv">1,80x</td>
+            <td class="tp">Ativo bem utilizado</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="page-footer">
+        <div class="pf-signers">
+          Luiz Fernando Biasi Staskowian – Dir. Financeiro · CPF 069.463.829-35
+          &nbsp;|&nbsp; Raphael Luiz Rodrigues Ramos – Dir. Operacional · CPF
+          401.192.037-15 &nbsp;|&nbsp; Thiago Fernandes da Silva – Contador
+          CRC-RJ 129866/O-9 · CPF 341.012.238-90
+        </div>
+        <div style="display: flex; align-items: center; gap: 4px">
+          <svg class="pf-hex" viewBox="0 0 20 20">
+            <polygon
+              points="10,1 18,5.5 18,14.5 10,19 2,14.5 2,5.5"
+              fill="#5B52A0"
+            />
+          </svg>
+          <span>5</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+     PÁG. 6 – CICLO DE CAIXA
+═══════════════════════════════════════════════════════ -->
+    <div class="page">
+      <div class="page-header">
+        <div class="ph-left">
+          <div class="ph-hex">
+            <svg viewBox="0 0 32 32" fill="none">
+              <polygon points="16,2 29,9 29,23 16,30 3,23 3,9" fill="#5B52A0" />
+              <text
+                x="16"
+                y="21"
+                text-anchor="middle"
+                fill="white"
+                font-size="14"
+                font-weight="800"
+                font-family="Poppins,sans-serif"
+                font-style="italic"
+              >
+                A
+              </text>
+            </svg>
+          </div>
+          <div>
+            <div class="ph-company">PONTUAL FARMACÊUTICA NR 2006 LTDA</div>
+            <div class="ph-cnpj">
+              CNPJ n° 07.724.173/0001-00 · Valores expressos em Reais
+            </div>
+          </div>
+        </div>
+        <div class="ph-right">
+          Jan – Out 2025<br />Indicadores de Desempenho
+        </div>
+      </div>
+
+      <div class="section-title">Ciclo de Caixa e Capital de Giro</div>
+      <div class="section-sub">
+        Prazos médios calculados sobre receita/custo acumulados Jan–Out 2025
+        (304 dias) e Jan–Out 2024 (304 dias)
+      </div>
+
+      <!-- KPIs do ciclo -->
+      <div
+        style="
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          gap: 8px;
+          margin-bottom: 14px;
+        "
+      >
+        <div
+          class="ind-card"
+          style="text-align: center; border-top: 4px solid #3498db"
+        >
+          <div class="ind-label">PMR</div>
+          <div
+            style="
+              font-size: 22pt;
+              font-weight: 800;
+              color: #3498db;
+              line-height: 1;
+            "
+          >
+            78
+          </div>
+          <div
+            style="font-size: 7pt; color: var(--text-muted); font-weight: 600"
+          >
+            dias
+          </div>
+          <div
+            style="font-size: 6.5pt; margin-top: 4px; color: var(--text-muted)"
+          >
+            Prazo Médio<br />de Recebimento
+          </div>
+          <div style="font-size: 6.5pt; margin-top: 3px; color: var(--red)">
+            Dez/24: 69 dias ▲
+          </div>
+        </div>
+        <div
+          class="ind-card"
+          style="text-align: center; border-top: 4px solid #9b59b6"
+        >
+          <div class="ind-label">PME</div>
+          <div
+            style="
+              font-size: 22pt;
+              font-weight: 800;
+              color: #9b59b6;
+              line-height: 1;
+            "
+          >
+            53
+          </div>
+          <div
+            style="font-size: 7pt; color: var(--text-muted); font-weight: 600"
+          >
+            dias
+          </div>
+          <div
+            style="font-size: 6.5pt; margin-top: 4px; color: var(--text-muted)"
+          >
+            Prazo Médio<br />de Estocagem
+          </div>
+          <div style="font-size: 6.5pt; margin-top: 3px; color: var(--red)">
+            Dez/24: 50 dias ▲
+          </div>
+        </div>
+        <div
+          class="ind-card"
+          style="text-align: center; border-top: 4px solid var(--purple-dark)"
+        >
+          <div class="ind-label">CO</div>
+          <div
+            style="
+              font-size: 22pt;
+              font-weight: 800;
+              color: var(--purple-dark);
+              line-height: 1;
+            "
+          >
+            131
+          </div>
+          <div
+            style="font-size: 7pt; color: var(--text-muted); font-weight: 600"
+          >
+            dias
+          </div>
+          <div
+            style="font-size: 6.5pt; margin-top: 4px; color: var(--text-muted)"
+          >
+            Ciclo<br />Operacional
+          </div>
+          <div style="font-size: 6.5pt; margin-top: 3px; color: var(--red)">
+            Dez/24: 119 dias ▲
+          </div>
+        </div>
+        <div
+          class="ind-card"
+          style="text-align: center; border-top: 4px solid var(--green)"
+        >
+          <div class="ind-label">PMP</div>
+          <div
+            style="
+              font-size: 22pt;
+              font-weight: 800;
+              color: var(--green);
+              line-height: 1;
+            "
+          >
+            95
+          </div>
+          <div
+            style="font-size: 7pt; color: var(--text-muted); font-weight: 600"
+          >
+            dias
+          </div>
+          <div
+            style="font-size: 6.5pt; margin-top: 4px; color: var(--text-muted)"
+          >
+            Prazo Médio<br />de Pagamento
+          </div>
+          <div style="font-size: 6.5pt; margin-top: 3px; color: var(--green)">
+            Dez/24: 103 dias ▼
+          </div>
+        </div>
+        <div
+          class="ind-card"
+          style="text-align: center; border-top: 4px solid var(--amber)"
+        >
+          <div class="ind-label">CC</div>
+          <div
+            style="
+              font-size: 22pt;
+              font-weight: 800;
+              color: var(--amber);
+              line-height: 1;
+            "
+          >
+            36
+          </div>
+          <div
+            style="font-size: 7pt; color: var(--text-muted); font-weight: 600"
+          >
+            dias
+          </div>
+          <div
+            style="font-size: 6.5pt; margin-top: 4px; color: var(--text-muted)"
+          >
+            Ciclo<br />de Caixa
+          </div>
+          <div style="font-size: 6.5pt; margin-top: 3px; color: var(--red)">
+            Dez/24: 16 dias ▲
+          </div>
+        </div>
+      </div>
+
+      <!-- Diagrama visual do ciclo -->
+      <div
+        style="
+          background: var(--purple-light);
+          border-radius: 10px;
+          padding: 14px 16px;
+          margin-bottom: 14px;
+        "
+      >
+        <div
+          style="
+            font-size: 8pt;
+            font-weight: 700;
+            color: var(--purple-dark);
+            margin-bottom: 10px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          "
+        >
+          Diagrama do Ciclo de Caixa — Out/2025
+        </div>
+
+        <!-- Linha do tempo visual -->
+        <div style="position: relative; padding: 0 8px">
+          <!-- Eixo de dias -->
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 4px;
+              font-size: 6.5pt;
+              color: var(--text-muted);
+            "
+          >
+            <span>Dia 0</span><span>Dia 30</span><span>Dia 60</span
+            ><span>Dia 90</span><span>Dia 120</span><span>Dia 131</span>
+          </div>
+
+          <!-- PME: compra → venda (0 a 53 dias) -->
+          <div style="margin-bottom: 6px">
+            <div
+              style="
+                font-size: 6.5pt;
+                color: #9b59b6;
+                font-weight: 600;
+                margin-bottom: 2px;
+              "
+            >
+              Estoque (PME = 53 dias)
+            </div>
+            <div
+              style="
+                height: 18px;
+                background: #eee;
+                border-radius: 4px;
+                overflow: hidden;
+                position: relative;
+              "
+            >
+              <div
+                style="
+                  position: absolute;
+                  left: 0;
+                  width: 40.5%;
+                  height: 100%;
+                  background: #9b59b6;
+                  border-radius: 4px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: white;
+                  font-size: 7pt;
+                  font-weight: 700;
+                "
+              >
+                Compra → Venda (53d)
+              </div>
+            </div>
+          </div>
+
+          <!-- PMR: venda → recebimento (53 a 131 dias) -->
+          <div style="margin-bottom: 6px">
+            <div
+              style="
+                font-size: 6.5pt;
+                color: #3498db;
+                font-weight: 600;
+                margin-bottom: 2px;
+              "
+            >
+              Recebimento (PMR = 78 dias)
+            </div>
+            <div
+              style="
+                height: 18px;
+                background: #eee;
+                border-radius: 4px;
+                overflow: hidden;
+                position: relative;
+              "
+            >
+              <div
+                style="
+                  position: absolute;
+                  left: 40.5%;
+                  width: 59.5%;
+                  height: 100%;
+                  background: #3498db;
+                  border-radius: 0 4px 4px 0;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: white;
+                  font-size: 7pt;
+                  font-weight: 700;
+                "
+              >
+                Venda → Recebimento (78d)
+              </div>
+            </div>
+          </div>
+
+          <!-- PMP: pagamento (0 a 95 dias) -->
+          <div style="margin-bottom: 6px">
+            <div
+              style="
+                font-size: 6.5pt;
+                color: var(--green);
+                font-weight: 600;
+                margin-bottom: 2px;
+              "
+            >
+              Pagamento a Fornecedores (PMP = 95 dias)
+            </div>
+            <div
+              style="
+                height: 18px;
+                background: #eee;
+                border-radius: 4px;
+                overflow: hidden;
+                position: relative;
+              "
+            >
+              <div
+                style="
+                  position: absolute;
+                  left: 0;
+                  width: 72.5%;
+                  height: 100%;
+                  background: var(--green);
+                  border-radius: 4px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: white;
+                  font-size: 7pt;
+                  font-weight: 700;
+                "
+              >
+                Compra → Pagamento (95d)
+              </div>
+            </div>
+          </div>
+
+          <!-- Ciclo de caixa highlight -->
+          <div>
+            <div
+              style="
+                font-size: 6.5pt;
+                color: var(--amber);
+                font-weight: 600;
+                margin-bottom: 2px;
+              "
+            >
+              ⚡ Ciclo de Caixa = 36 dias (CO 131d − PMP 95d)
+            </div>
+            <div
+              style="
+                height: 14px;
+                background: #eee;
+                border-radius: 4px;
+                overflow: hidden;
+                position: relative;
+              "
+            >
+              <div
+                style="
+                  position: absolute;
+                  left: 72.5%;
+                  width: 27.5%;
+                  height: 100%;
+                  background: var(--amber);
+                  border-radius: 0 4px 4px 0;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: white;
+                  font-size: 6.5pt;
+                  font-weight: 800;
+                "
+              >
+                36 dias financiados
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          style="
+            margin-top: 10px;
+            font-size: 6.5pt;
+            color: var(--text-muted);
+            text-align: center;
+          "
+        >
+          O ciclo de caixa de <strong>36 dias</strong> representa o período em
+          que a empresa necessita de capital próprio ou de terceiros para
+          financiar sua operação.
+        </div>
+      </div>
+
+      <!-- Comparativo Dez/24 -->
+      <div
+        style="
+          background: #f8f7fc;
+          border-radius: 10px;
+          padding: 12px 16px;
+          margin-bottom: 12px;
+        "
+      >
+        <div
+          style="
+            font-size: 8pt;
+            font-weight: 700;
+            color: var(--purple-dark);
+            margin-bottom: 8px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          "
+        >
+          Diagrama Comparativo — Dez/2024
+        </div>
+        <div style="position: relative; padding: 0 8px">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 4px;
+              font-size: 6.5pt;
+              color: var(--text-muted);
+            "
+          >
+            <span>Dia 0</span><span>Dia 30</span><span>Dia 60</span
+            ><span>Dia 90</span><span>Dia 103</span><span>Dia 119</span>
+          </div>
+          <div style="margin-bottom: 5px">
+            <div
+              style="
+                height: 14px;
+                background: #eee;
+                border-radius: 4px;
+                overflow: hidden;
+                position: relative;
+              "
+            >
+              <div
+                style="
+                  position: absolute;
+                  left: 0;
+                  width: 41.8%;
+                  height: 100%;
+                  background: #c9a0dc;
+                  border-radius: 4px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: white;
+                  font-size: 6.5pt;
+                  font-weight: 700;
+                "
+              >
+                PME 50d
+              </div>
+            </div>
+          </div>
+          <div style="margin-bottom: 5px">
+            <div
+              style="
+                height: 14px;
+                background: #eee;
+                border-radius: 4px;
+                overflow: hidden;
+                position: relative;
+              "
+            >
+              <div
+                style="
+                  position: absolute;
+                  left: 41.8%;
+                  width: 58.2%;
+                  height: 100%;
+                  background: #7ec8e3;
+                  border-radius: 0 4px 4px 0;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: white;
+                  font-size: 6.5pt;
+                  font-weight: 700;
+                "
+              >
+                PMR 69d
+              </div>
+            </div>
+          </div>
+          <div style="margin-bottom: 5px">
+            <div
+              style="
+                height: 14px;
+                background: #eee;
+                border-radius: 4px;
+                overflow: hidden;
+                position: relative;
+              "
+            >
+              <div
+                style="
+                  position: absolute;
+                  left: 0;
+                  width: 86.6%;
+                  height: 100%;
+                  background: #82c99e;
+                  border-radius: 4px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: white;
+                  font-size: 6.5pt;
+                  font-weight: 700;
+                "
+              >
+                PMP 103d
+              </div>
+            </div>
+          </div>
+          <div>
+            <div
+              style="
+                height: 12px;
+                background: #eee;
+                border-radius: 4px;
+                overflow: hidden;
+                position: relative;
+              "
+            >
+              <div
+                style="
+                  position: absolute;
+                  left: 86.6%;
+                  width: 13.4%;
+                  height: 100%;
+                  background: #d4960a;
+                  border-radius: 0 4px 4px 0;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: white;
+                  font-size: 6pt;
+                  font-weight: 800;
+                "
+              >
+                CC 16d
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabela detalhada -->
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 40%; text-align: left">INDICADOR</th>
+            <th>Fórmula</th>
+            <th>Out/2025</th>
+            <th>Dez/2024</th>
+            <th>Variação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="rg">
+            <td colspan="5">Prazos Médios</td>
+          </tr>
+          <tr class="ri">
+            <td>PMR – Prazo Médio de Recebimento</td>
+            <td class="tp">Clientes / (RB/dias)</td>
+            <td class="tv" style="color: #3498db; font-weight: 700">
+              77,9 dias
+            </td>
+            <td class="tv">69,1 dias</td>
+            <td class="tv vdn">+8,8 dias ▲</td>
+          </tr>
+          <tr class="ri">
+            <td>PME – Prazo Médio de Estocagem</td>
+            <td class="tp">Estoques / (CMV/dias)</td>
+            <td class="tv" style="color: #9b59b6; font-weight: 700">
+              52,9 dias
+            </td>
+            <td class="tv">49,7 dias</td>
+            <td class="tv vdn">+3,2 dias ▲</td>
+          </tr>
+          <tr class="ri">
+            <td>PMP – Prazo Médio de Pagamento</td>
+            <td class="tp">Fornecedores / (CMV/dias)</td>
+            <td class="tv pos">94,8 dias</td>
+            <td class="tv pos">102,6 dias</td>
+            <td class="tv vup">−7,8 dias ▼</td>
+          </tr>
+
+          <tr class="rg">
+            <td colspan="5">Ciclos</td>
+          </tr>
+          <tr class="ri">
+            <td>Ciclo Operacional (PMR + PME)</td>
+            <td class="tp">Receber + Estocar</td>
+            <td class="tv" style="color: var(--purple-dark); font-weight: 700">
+              130,8 dias
+            </td>
+            <td class="tv">118,8 dias</td>
+            <td class="tv vdn">+12,0 dias ▲</td>
+          </tr>
+          <tr class="rs">
+            <td>Ciclo de Caixa (CO − PMP)</td>
+            <td class="tp">Gap de financiamento</td>
+            <td class="tv" style="color: var(--amber); font-weight: 800">
+              36,0 dias
+            </td>
+            <td class="tv" style="color: var(--green); font-weight: 700">
+              16,2 dias
+            </td>
+            <td class="tv vdn">+19,8 dias ▲</td>
+          </tr>
+
+          <tr class="rg">
+            <td colspan="5">Capital de Giro</td>
+          </tr>
+          <tr class="ri">
+            <td>Ativo Operacional Circulante</td>
+            <td class="tp">Clientes+Estoq.+Adiant.+Imp.Rec.</td>
+            <td class="tv">231.008.576</td>
+            <td class="tv">87.368.477</td>
+            <td class="tv vdn">+164,4%</td>
+          </tr>
+          <tr class="ri">
+            <td>Passivo Operacional Circulante</td>
+            <td class="tp">Fornec.+Obrig.+Outras</td>
+            <td class="tv">149.086.518</td>
+            <td class="tv">65.594.059</td>
+            <td class="tv vdn">+127,3%</td>
+          </tr>
+          <tr class="rt">
+            <td>NCG – Necessidade de Capital de Giro</td>
+            <td class="tp">Ativo Op. − Passivo Op.</td>
+            <td class="tv" style="color: #ffe080; font-weight: 800">
+              81.922.058
+            </td>
+            <td class="tv" style="color: #a8e6c3">21.774.418</td>
+            <td class="tv" style="font-weight: 700">+276,2%</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div
+        style="
+          background: #fbf4e5;
+          border: 1px solid #e6c87a;
+          border-radius: 8px;
+          padding: 8px 12px;
+          margin-top: 8px;
+          font-size: 7pt;
+          color: #6b4900;
+          line-height: 1.6;
+        "
+      >
+        <strong>⚡ Análise:</strong> O aumento do Ciclo de Caixa de 16 para 36
+        dias reflete o forte crescimento da operação (+140,7% na Receita Bruta),
+        que ampliou os saldos de Clientes e Estoques em ritmo superior ao
+        crescimento dos Fornecedores. A NCG saltou de R$ 21,8 MM para R$ 81,9 MM
+        (+R$ 60,1 MM), sendo parcialmente financiada pelo crescimento da
+        captação de empréstimos (R$ +56,1 MM). A redução do PMP (103d → 95d) é
+        um ponto de atenção — negociar prazos maiores com fornecedores pode
+        aliviar a pressão de caixa.
+      </div>
+
+      <div class="page-footer">
+        <div class="pf-signers">
+          Luiz Fernando Biasi Staskowian – Dir. Financeiro · CPF 069.463.829-35
+          &nbsp;|&nbsp; Raphael Luiz Rodrigues Ramos – Dir. Operacional · CPF
+          401.192.037-15 &nbsp;|&nbsp; Thiago Fernandes da Silva – Contador
+          CRC-RJ 129866/O-9 · CPF 341.012.238-90
+        </div>
+        <div style="display: flex; align-items: center; gap: 4px">
+          <svg class="pf-hex" viewBox="0 0 20 20">
+            <polygon
+              points="10,1 18,5.5 18,14.5 10,19 2,14.5 2,5.5"
+              fill="#5B52A0"
+            />
+          </svg>
+          <span>6</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+     PÁG. 7 – LIQUIDEZ & RENTABILIDADE
+═══════════════════════════════════════════════════════ -->
+    <div class="page">
+      <div class="page-header">
+        <div class="ph-left">
+          <div class="ph-hex">
+            <svg viewBox="0 0 32 32" fill="none">
+              <polygon points="16,2 29,9 29,23 16,30 3,23 3,9" fill="#5B52A0" />
+              <text
+                x="16"
+                y="21"
+                text-anchor="middle"
+                fill="white"
+                font-size="14"
+                font-weight="800"
+                font-family="Poppins,sans-serif"
+                font-style="italic"
+              >
+                A
+              </text>
+            </svg>
+          </div>
+          <div>
+            <div class="ph-company">PONTUAL FARMACÊUTICA NR 2006 LTDA</div>
+            <div class="ph-cnpj">
+              CNPJ n° 07.724.173/0001-00 · Valores expressos em Reais
+            </div>
+          </div>
+        </div>
+        <div class="ph-right">
+          Jan – Out 2025<br />Indicadores de Desempenho
+        </div>
+      </div>
+
+      <!-- ═══ LIQUIDEZ ═══ -->
+      <div class="section-title">Indicadores de Liquidez</div>
+      <div class="section-sub">
+        Capacidade de pagamento de obrigações · Posição Out/2025 vs. Dez/2024
+      </div>
+
+      <!-- Gauges de liquidez -->
+      <div
+        style="
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 10px;
+          margin-bottom: 10px;
+        "
+      >
+        <!-- Liquidez Corrente -->
+        <div class="ind-card" style="text-align: center; padding: 12px 8px">
+          <div class="ind-label" style="margin-bottom: 6px">
+            Liquidez Corrente
+          </div>
+          <div
+            style="
+              position: relative;
+              width: 90px;
+              height: 90px;
+              margin: 0 auto 6px;
+            "
+          >
+            <svg viewBox="0 0 100 100" width="90" height="90">
+              <!-- Track -->
+              <circle
+                cx="50"
+                cy="50"
+                r="40"
+                fill="none"
+                stroke="#eee"
+                stroke-width="12"
+              />
+              <!-- Fill Out/25 — 1.056 → cap at 2.0 → 52.8% of 270deg arc -->
+              <!-- arc: stroke-dasharray = pct * 2πr * (270/360) = pct * 188.5 -->
+              <!-- 1.056/2.0 = 52.8% → 52.8% * 188.5 = 99.5 -->
+              <circle
+                cx="50"
+                cy="50"
+                r="40"
+                fill="none"
+                stroke="#2A8C5C"
+                stroke-width="12"
+                stroke-dasharray="99.5 251.3"
+                stroke-dashoffset="-47.1"
+                stroke-linecap="round"
+                transform="rotate(135 50 50)"
+              />
+              <text
+                x="50"
+                y="47"
+                text-anchor="middle"
+                fill="#3D3676"
+                font-size="16"
+                font-weight="800"
+                font-family="Poppins,sans-serif"
+              >
+                1,056
+              </text>
+              <text
+                x="50"
+                y="60"
+                text-anchor="middle"
+                fill="#6B6B8A"
+                font-size="8"
+                font-family="Poppins,sans-serif"
+              >
+                Out/2025
+              </text>
+            </svg>
+          </div>
+          <div class="liq-badge green">✓ Acima de 1,0</div>
+          <div
+            style="margin-top: 6px; font-size: 7pt; color: var(--text-muted)"
+          >
+            Dez/24: <strong style="color: var(--red)">0,891</strong> ← abaixo de
+            1
+          </div>
+          <div
+            style="font-size: 6.5pt; color: var(--text-muted); margin-top: 4px"
+          >
+            AC / PC
+          </div>
+        </div>
+
+        <!-- Liquidez Seca -->
+        <div class="ind-card" style="text-align: center; padding: 12px 8px">
+          <div class="ind-label" style="margin-bottom: 6px">Liquidez Seca</div>
+          <div
+            style="
+              position: relative;
+              width: 90px;
+              height: 90px;
+              margin: 0 auto 6px;
+            "
+          >
+            <svg viewBox="0 0 100 100" width="90" height="90">
+              <circle
+                cx="50"
+                cy="50"
+                r="40"
+                fill="none"
+                stroke="#eee"
+                stroke-width="12"
+              />
+              <!-- 0.706/2.0 = 35.3% → 35.3% * 188.5 = 66.5 -->
+              <circle
+                cx="50"
+                cy="50"
+                r="40"
+                fill="none"
+                stroke="#D4960A"
+                stroke-width="12"
+                stroke-dasharray="66.5 251.3"
+                stroke-dashoffset="-47.1"
+                stroke-linecap="round"
+                transform="rotate(135 50 50)"
+              />
+              <text
+                x="50"
+                y="47"
+                text-anchor="middle"
+                fill="#3D3676"
+                font-size="16"
+                font-weight="800"
+                font-family="Poppins,sans-serif"
+              >
+                0,706
+              </text>
+              <text
+                x="50"
+                y="60"
+                text-anchor="middle"
+                fill="#6B6B8A"
+                font-size="8"
+                font-family="Poppins,sans-serif"
+              >
+                Out/2025
+              </text>
+            </svg>
+          </div>
+          <div class="liq-badge amber">⚠ Monitorar</div>
+          <div
+            style="margin-top: 6px; font-size: 7pt; color: var(--text-muted)"
+          >
+            Dez/24: <strong style="color: var(--red)">0,588</strong>
+          </div>
+          <div
+            style="font-size: 6.5pt; color: var(--text-muted); margin-top: 4px"
+          >
+            (AC − Estoques) / PC
+          </div>
+        </div>
+
+        <!-- Liquidez Geral -->
+        <div class="ind-card" style="text-align: center; padding: 12px 8px">
+          <div class="ind-label" style="margin-bottom: 6px">Liquidez Geral</div>
+          <div
+            style="
+              position: relative;
+              width: 90px;
+              height: 90px;
+              margin: 0 auto 6px;
+            "
+          >
+            <svg viewBox="0 0 100 100" width="90" height="90">
+              <circle
+                cx="50"
+                cy="50"
+                r="40"
+                fill="none"
+                stroke="#eee"
+                stroke-width="12"
+              />
+              <!-- 1.017/2.0 = 50.9% → 50.9% * 188.5 = 95.9 -->
+              <circle
+                cx="50"
+                cy="50"
+                r="40"
+                fill="none"
+                stroke="#2A8C5C"
+                stroke-width="12"
+                stroke-dasharray="95.9 251.3"
+                stroke-dashoffset="-47.1"
+                stroke-linecap="round"
+                transform="rotate(135 50 50)"
+              />
+              <text
+                x="50"
+                y="47"
+                text-anchor="middle"
+                fill="#3D3676"
+                font-size="16"
+                font-weight="800"
+                font-family="Poppins,sans-serif"
+              >
+                1,017
+              </text>
+              <text
+                x="50"
+                y="60"
+                text-anchor="middle"
+                fill="#6B6B8A"
+                font-size="8"
+                font-family="Poppins,sans-serif"
+              >
+                Out/2025
+              </text>
+            </svg>
+          </div>
+          <div class="liq-badge green">✓ Acima de 1,0</div>
+          <div
+            style="margin-top: 6px; font-size: 7pt; color: var(--text-muted)"
+          >
+            Dez/24: <strong style="color: var(--red)">0,951</strong>
+          </div>
+          <div
+            style="font-size: 6.5pt; color: var(--text-muted); margin-top: 4px"
+          >
+            (AC+ANC) / (PC+PNC)
+          </div>
+        </div>
+
+        <!-- Capital de Giro Líquido -->
+        <div class="ind-card" style="padding: 12px 10px">
+          <div class="ind-label">Capital de Giro Líquido</div>
+          <div
+            style="
+              font-size: 15pt;
+              font-weight: 800;
+              color: var(--green);
+              margin: 6px 0 2px;
+              line-height: 1;
+            "
+          >
+            + R$ 12,3 MM
+          </div>
+          <div
+            style="
+              font-size: 6.5pt;
+              color: var(--text-muted);
+              margin-bottom: 8px;
+            "
+          >
+            AC − Passivo Circulante
+          </div>
+          <div
+            style="
+              background: #faeaea;
+              border-radius: 6px;
+              padding: 5px 8px;
+              margin-bottom: 6px;
+            "
+          >
+            <div style="font-size: 6.5pt; color: var(--text-muted)">
+              Dez/2024
+            </div>
+            <div style="font-size: 11pt; font-weight: 700; color: var(--red)">
+              (R$ 11,1 MM)
+            </div>
+          </div>
+          <div
+            style="background: #eaf5f0; border-radius: 6px; padding: 5px 8px"
+          >
+            <div style="font-size: 6pt; color: var(--green); font-weight: 600">
+              ▲ Reversão de R$ 23,4 MM no CGL
+            </div>
+            <div
+              style="font-size: 6pt; color: var(--text-muted); margin-top: 2px"
+            >
+              Empresa saiu de posição deficitária de curto prazo
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Referências de liquidez -->
+      <div
+        style="
+          background: var(--purple-light);
+          border-radius: 8px;
+          padding: 8px 14px;
+          margin-bottom: 10px;
+          display: flex;
+          gap: 16px;
+          align-items: center;
+        "
+      >
+        <div
+          style="
+            font-size: 7pt;
+            font-weight: 700;
+            color: var(--purple-dark);
+            white-space: nowrap;
+          "
+        >
+          Referências de Mercado:
+        </div>
+        <div style="font-size: 6.5pt; color: var(--text-muted); flex: 1">
+          <span style="color: var(--green); font-weight: 600">● LC ≥ 1,5</span>
+          — ótima &nbsp;|&nbsp;
+          <span style="color: #d4960a; font-weight: 600">● LC 1,0–1,5</span> —
+          satisfatória &nbsp;|&nbsp;
+          <span style="color: var(--red); font-weight: 600">● LC &lt; 1,0</span>
+          — atenção &nbsp;|&nbsp;
+          <span style="color: var(--green); font-weight: 600">● LS ≥ 1,0</span>
+          — excelente &nbsp;|&nbsp;
+          <span style="color: #d4960a; font-weight: 600">● LS 0,5–1,0</span> —
+          aceitável no setor farmacêutico
+        </div>
+      </div>
+
+      <!-- Tabela liquidez -->
+      <table style="margin-bottom: 14px">
+        <thead>
+          <tr>
+            <th style="width: 38%; text-align: left">INDICADOR</th>
+            <th>Fórmula</th>
+            <th>Out/2025</th>
+            <th>Dez/2024</th>
+            <th>Variação</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="ri">
+            <td>Liquidez Corrente</td>
+            <td class="tp">AC / PC</td>
+            <td class="tv pos" style="font-weight: 800">1,056</td>
+            <td class="tv neg">0,891</td>
+            <td class="tv vup">+0,165</td>
+            <td class="tp" style="color: var(--green); font-weight: 600">
+              ✓ Satisfatória
+            </td>
+          </tr>
+          <tr class="ri">
+            <td>Liquidez Seca</td>
+            <td class="tp">(AC − Estoques) / PC</td>
+            <td class="tv" style="color: var(--amber); font-weight: 800">
+              0,706
+            </td>
+            <td class="tv neg">0,588</td>
+            <td class="tv vup">+0,118</td>
+            <td class="tp" style="color: var(--amber); font-weight: 600">
+              ⚠ Monitorar
+            </td>
+          </tr>
+          <tr class="ri">
+            <td>Liquidez Geral</td>
+            <td class="tp">(AC+ANC) / (PC+PNC)</td>
+            <td class="tv pos" style="font-weight: 800">1,017</td>
+            <td class="tv neg">0,951</td>
+            <td class="tv vup">+0,066</td>
+            <td class="tp" style="color: var(--green); font-weight: 600">
+              ✓ Satisfatória
+            </td>
+          </tr>
+          <tr class="rs">
+            <td>Capital de Giro Líquido (AC − PC)</td>
+            <td class="tp">R$</td>
+            <td class="tv pos" style="font-weight: 800">12.343.200</td>
+            <td class="tv neg">(11.066.586)</td>
+            <td class="tv vup">+23.409.786</td>
+            <td class="tp" style="color: var(--green); font-weight: 600">
+              ✓ Revertido
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- ═══ RENTABILIDADE ═══ -->
+      <div class="section-title">Indicadores de Rentabilidade</div>
+      <div class="section-sub">
+        Eficiência na geração de lucros · Acumulado Jan–Out 2025 vs Jan–Out 2024
+      </div>
+
+      <!-- Cascata de margens -->
+      <div
+        style="
+          background: var(--purple-light);
+          border-radius: 10px;
+          padding: 12px 16px;
+          margin-bottom: 10px;
+        "
+      >
+        <div
+          style="
+            font-size: 8pt;
+            font-weight: 700;
+            color: var(--purple-dark);
+            margin-bottom: 10px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          "
+        >
+          Cascata de Margens — Jan–Out 2025 (% Receita Líquida)
+        </div>
+
+        <!-- Cabeçalho das colunas -->
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 120px 1fr 64px 64px;
+            gap: 6px;
+            align-items: center;
+            margin-bottom: 4px;
+            padding: 0 2px;
+          "
+        >
+          <div></div>
+          <div
+            style="
+              font-size: 6pt;
+              color: var(--text-muted);
+              font-weight: 600;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+            "
+          >
+            Proporção sobre a Receita Líquida
+          </div>
+          <div
+            style="
+              font-size: 6pt;
+              color: var(--text-muted);
+              font-weight: 600;
+              text-align: center;
+            "
+          >
+            2025
+          </div>
+          <div
+            style="
+              font-size: 6pt;
+              color: var(--text-muted);
+              font-weight: 600;
+              text-align: center;
+            "
+          >
+            2024
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 7px">
+          <!-- Receita Líquida — base 100% -->
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 120px 1fr 64px 64px;
+              gap: 6px;
+              align-items: center;
+            "
+          >
+            <div
+              style="
+                font-size: 7.5pt;
+                color: var(--purple-dark);
+                font-weight: 600;
+                text-align: right;
+                padding-right: 4px;
+              "
+            >
+              Receita Líquida
+            </div>
+            <div style="position: relative; height: 24px">
+              <div
+                style="
+                  position: absolute;
+                  inset: 0;
+                  background: var(--purple);
+                  border-radius: 5px;
+                "
+              ></div>
+              <div
+                style="
+                  position: absolute;
+                  inset: 0;
+                  display: flex;
+                  align-items: center;
+                  padding-left: 10px;
+                "
+              >
+                <span style="color: white; font-size: 7.5pt; font-weight: 700"
+                  >R$ 473,9 MM</span
+                >
+              </div>
+            </div>
+            <div
+              style="
+                text-align: center;
+                font-size: 8pt;
+                font-weight: 800;
+                color: var(--purple-dark);
+              "
+            >
+              100,0%
+            </div>
+            <div
+              style="
+                text-align: center;
+                font-size: 8pt;
+                font-weight: 800;
+                color: var(--text-muted);
+              "
+            >
+              100,0%
+            </div>
+          </div>
+
+          <!-- Margem Bruta -->
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 120px 1fr 64px 64px;
+              gap: 6px;
+              align-items: center;
+            "
+          >
+            <div
+              style="
+                font-size: 7.5pt;
+                color: var(--text);
+                font-weight: 500;
+                text-align: right;
+                padding-right: 4px;
+              "
+            >
+              Margem Bruta
+            </div>
+            <div
+              style="
+                position: relative;
+                height: 24px;
+                background: #e8e4f6;
+                border-radius: 5px;
+              "
+            >
+              <div
+                style="
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  height: 100%;
+                  width: 67%;
+                  background: #2a8c5c;
+                  border-radius: 5px;
+                "
+              ></div>
+              <div
+                style="
+                  position: absolute;
+                  inset: 0;
+                  display: flex;
+                  align-items: center;
+                  padding-left: 10px;
+                "
+              >
+                <span
+                  style="
+                    color: white;
+                    font-size: 7pt;
+                    font-weight: 700;
+                    white-space: nowrap;
+                  "
+                  >R$ 31,8 MM</span
+                >
+              </div>
+            </div>
+            <div
+              style="
+                text-align: center;
+                font-size: 8pt;
+                font-weight: 800;
+                color: #2a8c5c;
+              "
+            >
+              6,7%
+            </div>
+            <div
+              style="
+                text-align: center;
+                font-size: 8pt;
+                font-weight: 600;
+                color: var(--text-muted);
+              "
+            >
+              5,2%
+            </div>
+          </div>
+
+          <!-- Margem EBITDA -->
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 120px 1fr 64px 64px;
+              gap: 6px;
+              align-items: center;
+            "
+          >
+            <div
+              style="
+                font-size: 7.5pt;
+                color: var(--text);
+                font-weight: 500;
+                text-align: right;
+                padding-right: 4px;
+              "
+            >
+              Margem EBITDA
+            </div>
+            <div
+              style="
+                position: relative;
+                height: 24px;
+                background: #e8e4f6;
+                border-radius: 5px;
+              "
+            >
+              <div
+                style="
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  height: 100%;
+                  width: 34%;
+                  background: #1a7a4a;
+                  border-radius: 5px;
+                "
+              ></div>
+              <div
+                style="
+                  position: absolute;
+                  inset: 0;
+                  display: flex;
+                  align-items: center;
+                  padding-left: 10px;
+                "
+              >
+                <span
+                  style="
+                    color: white;
+                    font-size: 7pt;
+                    font-weight: 700;
+                    white-space: nowrap;
+                  "
+                  >R$ 15,9 MM</span
+                >
+              </div>
+            </div>
+            <div
+              style="
+                text-align: center;
+                font-size: 8pt;
+                font-weight: 800;
+                color: #1a7a4a;
+              "
+            >
+              3,4%
+            </div>
+            <div
+              style="
+                text-align: center;
+                font-size: 8pt;
+                font-weight: 600;
+                color: var(--red);
+              "
+            >
+              −0,6%
+            </div>
+          </div>
+
+          <!-- Margem Líquida -->
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 120px 1fr 64px 64px;
+              gap: 6px;
+              align-items: center;
+            "
+          >
+            <div
+              style="
+                font-size: 7.5pt;
+                color: var(--text);
+                font-weight: 500;
+                text-align: right;
+                padding-right: 4px;
+              "
+            >
+              Margem Líquida
+            </div>
+            <div
+              style="
+                position: relative;
+                height: 24px;
+                background: #e8e4f6;
+                border-radius: 5px;
+              "
+            >
+              <div
+                style="
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  height: 100%;
+                  width: 21%;
+                  background: #3d3676;
+                  border-radius: 5px;
+                "
+              ></div>
+              <div
+                style="
+                  position: absolute;
+                  inset: 0;
+                  display: flex;
+                  align-items: center;
+                  padding-left: 10px;
+                "
+              >
+                <span
+                  style="
+                    color: white;
+                    font-size: 7pt;
+                    font-weight: 700;
+                    white-space: nowrap;
+                  "
+                  >R$ 9,95 MM</span
+                >
+              </div>
+            </div>
+            <div
+              style="
+                text-align: center;
+                font-size: 8pt;
+                font-weight: 800;
+                color: #3d3676;
+              "
+            >
+              2,1%
+            </div>
+            <div
+              style="
+                text-align: center;
+                font-size: 8pt;
+                font-weight: 600;
+                color: var(--red);
+              "
+            >
+              −3,1%
+            </div>
+          </div>
+        </div>
+
+        <!-- Legenda -->
+        <div
+          style="
+            margin-top: 8px;
+            padding-top: 6px;
+            border-top: 1px dashed #c8c4e8;
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+          "
+        >
+          <span style="font-size: 6.5pt; color: var(--text-muted)">
+            <span
+              style="
+                display: inline-block;
+                width: 10px;
+                height: 10px;
+                background: #2a8c5c;
+                border-radius: 2px;
+                vertical-align: middle;
+                margin-right: 3px;
+              "
+            ></span
+            >Margem Bruta
+          </span>
+          <span style="font-size: 6.5pt; color: var(--text-muted)">
+            <span
+              style="
+                display: inline-block;
+                width: 10px;
+                height: 10px;
+                background: #1a7a4a;
+                border-radius: 2px;
+                vertical-align: middle;
+                margin-right: 3px;
+              "
+            ></span
+            >Margem EBITDA
+          </span>
+          <span style="font-size: 6.5pt; color: var(--text-muted)">
+            <span
+              style="
+                display: inline-block;
+                width: 10px;
+                height: 10px;
+                background: #3d3676;
+                border-radius: 2px;
+                vertical-align: middle;
+                margin-right: 3px;
+              "
+            ></span
+            >Margem Líquida
+          </span>
+          <span
+            style="
+              font-size: 6.5pt;
+              color: var(--text-muted);
+              margin-left: auto;
+            "
+          >
+            As barras são escaladas em relação à Margem Bruta (= 100% da área)
+          </span>
+        </div>
+      </div>
+
+      <!-- ROI / ROE / ROIC cards -->
+      <div
+        style="
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
+          margin-bottom: 10px;
+        "
+      >
+        <!-- ROI -->
+        <div class="ind-card">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-start;
+              margin-bottom: 6px;
+            "
+          >
+            <div class="ind-label" style="margin: 0">
+              ROI<br /><span style="font-size: 6pt; font-weight: 400"
+                >Retorno sobre o Investimento</span
+              >
+            </div>
+            <div
+              style="
+                background: #eaf5f0;
+                border-radius: 20px;
+                padding: 2px 8px;
+                font-size: 6.5pt;
+                font-weight: 700;
+                color: var(--green);
+              "
+            >
+              Resultado / AT
+            </div>
+          </div>
+          <div
+            style="
+              display: flex;
+              gap: 10px;
+              align-items: flex-end;
+              margin-bottom: 6px;
+            "
+          >
+            <div>
+              <div style="font-size: 7pt; color: var(--text-muted)">
+                Período
+              </div>
+              <div
+                style="
+                  font-size: 20pt;
+                  font-weight: 800;
+                  color: var(--green);
+                  line-height: 1;
+                "
+              >
+                3,84%
+              </div>
+            </div>
+            <div>
+              <div style="font-size: 7pt; color: var(--text-muted)">
+                Anualizado
+              </div>
+              <div
+                style="
+                  font-size: 14pt;
+                  font-weight: 700;
+                  color: #1a5c38;
+                  line-height: 1;
+                "
+              >
+                4,60%
+              </div>
+            </div>
+          </div>
+          <div style="border-top: 1px dashed #ddd; padding-top: 5px">
+            <div style="font-size: 6.5pt; color: var(--text-muted)">
+              Jan–Out 2024: <strong class="neg">−5,54%</strong> (período) /
+              <strong class="neg">−6,65%</strong> (anualizado)
+            </div>
+            <div
+              style="
+                font-size: 6.5pt;
+                color: var(--green);
+                font-weight: 600;
+                margin-top: 2px;
+              "
+            >
+              ▲ Reversão de ROI negativo para positivo
+            </div>
+          </div>
+        </div>
+
+        <!-- ROE -->
+        <div class="ind-card">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-start;
+              margin-bottom: 6px;
+            "
+          >
+            <div class="ind-label" style="margin: 0">
+              ROE<br /><span style="font-size: 6pt; font-weight: 400"
+                >Retorno sobre o Patrimônio Líquido</span
+              >
+            </div>
+            <div
+              style="
+                background: var(--purple-light);
+                border-radius: 20px;
+                padding: 2px 8px;
+                font-size: 6.5pt;
+                font-weight: 700;
+                color: var(--purple);
+              "
+            >
+              LL / PL
+            </div>
+          </div>
+          <div
+            style="
+              display: flex;
+              gap: 10px;
+              align-items: flex-end;
+              margin-bottom: 6px;
+            "
+          >
+            <div>
+              <div style="font-size: 7pt; color: var(--text-muted)">
+                Período
+              </div>
+              <div
+                style="
+                  font-size: 20pt;
+                  font-weight: 800;
+                  color: var(--purple);
+                  line-height: 1;
+                "
+              >
+                231%
+              </div>
+            </div>
+            <div>
+              <div style="font-size: 7pt; color: var(--text-muted)">
+                Anualizado
+              </div>
+              <div
+                style="
+                  font-size: 14pt;
+                  font-weight: 700;
+                  color: var(--purple-dark);
+                  line-height: 1;
+                "
+              >
+                277%
+              </div>
+            </div>
+          </div>
+          <div style="border-top: 1px dashed #ddd; padding-top: 5px">
+            <div style="font-size: 6.5pt; color: var(--text-muted)">
+              Dez/2024: PL negativo — ROE não aplicável
+            </div>
+            <div
+              style="
+                background: #fbf4e5;
+                border-radius: 4px;
+                padding: 3px 6px;
+                margin-top: 3px;
+                font-size: 6pt;
+                color: var(--amber);
+              "
+            >
+              ⚠ ROE elevado devido ao PL reduzido (R$ 4,3 MM). Tende a
+              normalizar com crescimento do PL.
+            </div>
+          </div>
+        </div>
+
+        <!-- ROIC -->
+        <div class="ind-card">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-start;
+              margin-bottom: 6px;
+            "
+          >
+            <div class="ind-label" style="margin: 0">
+              ROIC<br /><span style="font-size: 6pt; font-weight: 400"
+                >Retorno sobre Capital Investido</span
+              >
+            </div>
+            <div
+              style="
+                background: #eaf5f0;
+                border-radius: 20px;
+                padding: 2px 8px;
+                font-size: 6.5pt;
+                font-weight: 700;
+                color: var(--green);
+              "
+            >
+              EBIT / Cap.Inv.
+            </div>
+          </div>
+          <div
+            style="
+              display: flex;
+              gap: 10px;
+              align-items: flex-end;
+              margin-bottom: 6px;
+            "
+          >
+            <div>
+              <div style="font-size: 7pt; color: var(--text-muted)">
+                Período
+              </div>
+              <div
+                style="
+                  font-size: 20pt;
+                  font-weight: 800;
+                  color: var(--green);
+                  line-height: 1;
+                "
+              >
+                15,4%
+              </div>
+            </div>
+            <div>
+              <div style="font-size: 7pt; color: var(--text-muted)">
+                Anualizado
+              </div>
+              <div
+                style="
+                  font-size: 14pt;
+                  font-weight: 700;
+                  color: #1a5c38;
+                  line-height: 1;
+                "
+              >
+                18,5%
+              </div>
+            </div>
+          </div>
+          <div style="border-top: 1px dashed #ddd; padding-top: 5px">
+            <div style="font-size: 6.5pt; color: var(--text-muted)">
+              Capital Investido: PL + Dívida Líquida = R$ 102,4 MM
+            </div>
+            <div
+              style="
+                font-size: 6.5pt;
+                color: var(--green);
+                font-weight: 600;
+                margin-top: 2px;
+              "
+            >
+              ✓ Retorno operacional sólido sobre o capital alocado
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabela rentabilidade -->
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 34%; text-align: left">INDICADOR</th>
+            <th style="width: 20%">Fórmula</th>
+            <th style="width: 12%">Jan–Out 2025</th>
+            <th style="width: 13%">Anualizado 2025</th>
+            <th style="width: 12%">Jan–Out 2024</th>
+            <th style="width: 9%">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="rg">
+            <td colspan="6">Margens</td>
+          </tr>
+          <tr class="ri">
+            <td>Margem Bruta</td>
+            <td class="tp">Lucro Bruto / RL</td>
+            <td class="tv pos">6,70%</td>
+            <td class="tv vnu">—</td>
+            <td class="tv" style="color: var(--amber)">5,16%</td>
+            <td class="tp" style="color: var(--green); font-weight: 600">
+              ▲ +1,5 p.p.
+            </td>
+          </tr>
+          <tr class="ri">
+            <td>Margem EBITDA</td>
+            <td class="tp">EBITDA / RL</td>
+            <td class="tv pos">3,36%</td>
+            <td class="tv vnu">—</td>
+            <td class="tv neg">−0,58%</td>
+            <td class="tp" style="color: var(--green); font-weight: 600">
+              ▲ +3,9 p.p.
+            </td>
+          </tr>
+          <tr class="ri">
+            <td>Margem Líquida</td>
+            <td class="tp">Resultado / RL</td>
+            <td class="tv pos">2,10%</td>
+            <td class="tv vnu">—</td>
+            <td class="tv neg">−3,08%</td>
+            <td class="tp" style="color: var(--green); font-weight: 600">
+              ▲ +5,2 p.p.
+            </td>
+          </tr>
+          <tr class="rg">
+            <td colspan="6">Retornos sobre Capital</td>
+          </tr>
+          <tr class="ri">
+            <td>ROI – Retorno sobre o Investimento</td>
+            <td class="tp">Resultado / AT</td>
+            <td class="tv pos">3,84%</td>
+            <td class="tv pos">4,60%</td>
+            <td class="tv neg">−5,54%</td>
+            <td class="tp" style="color: var(--green); font-weight: 600">
+              ▲ Revertido
+            </td>
+          </tr>
+          <tr class="ri">
+            <td>ROE – Retorno sobre o Patrimônio</td>
+            <td class="tp">Resultado / PL</td>
+            <td class="tv" style="color: var(--purple); font-weight: 700">
+              231,1%
+            </td>
+            <td class="tv" style="color: var(--purple); font-weight: 700">
+              277,3%
+            </td>
+            <td class="tv neg">n.a.</td>
+            <td class="tp" style="color: var(--amber); font-weight: 600">
+              ⚠ PL baixo
+            </td>
+          </tr>
+          <tr class="ri">
+            <td>ROIC – Retorno sobre Capital Investido</td>
+            <td class="tp">EBIT / (PL + Dív.Líq.)</td>
+            <td class="tv pos">15,38%</td>
+            <td class="tv pos">18,46%</td>
+            <td class="tv neg">n.a.</td>
+            <td class="tp" style="color: var(--green); font-weight: 600">
+              ✓ Sólido
+            </td>
+          </tr>
+          <tr class="ri">
+            <td>Giro do Ativo</td>
+            <td class="tp">RL / Ativo Total</td>
+            <td class="tv pos">1,83x</td>
+            <td class="tv vnu">—</td>
+            <td class="tv">1,80x</td>
+            <td class="tp" style="color: var(--green); font-weight: 600">
+              ✓ Eficiente
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="page-footer">
+        <div class="pf-signers">
+          Luiz Fernando Biasi Staskowian – Dir. Financeiro · CPF 069.463.829-35
+          &nbsp;|&nbsp; Raphael Luiz Rodrigues Ramos – Dir. Operacional · CPF
+          401.192.037-15 &nbsp;|&nbsp; Thiago Fernandes da Silva – Contador
+          CRC-RJ 129866/O-9 · CPF 341.012.238-90
+        </div>
+        <div style="display: flex; align-items: center; gap: 4px">
+          <svg class="pf-hex" viewBox="0 0 20 20">
+            <polygon
+              points="10,1 18,5.5 18,14.5 10,19 2,14.5 2,5.5"
+              fill="#5B52A0"
+            />
+          </svg>
+          <span>7</span>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      /* ── ESTILOS EXTRAS DOS INDICADORES ─────────────────── */
+      .ind-card {
+        background: #fff;
+        border: 1px solid var(--purple-soft);
+        border-radius: 8px;
+        padding: 10px 12px;
+      }
+
+      .ind-label {
+        font-size: 7pt;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+        font-weight: 500;
+      }
+
+      .ind-value {
+        font-size: 17pt;
+        font-weight: 800;
+        line-height: 1;
+        color: var(--purple-dark);
+        margin-bottom: 2px;
+      }
+
+      .ind-compare {
+        font-size: 7pt;
+        color: var(--text-muted);
+        margin-bottom: 6px;
+      }
+
+      .ind-bar-wrap {
+        margin: 6px 0 4px;
+      }
+
+      .ind-bar-track {
+        height: 8px;
+        background: #eee;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .ind-bar-fill {
+        height: 100%;
+        border-radius: 4px;
+      }
+
+      .ind-legend {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 6.5pt;
+        color: var(--text-muted);
+        margin-top: 3px;
+      }
+
+      .ind-legend span {
+        display: inline-block;
+        width: 10px;
+        height: 6px;
+        border-radius: 2px;
+      }
+
+      .ind-kpi {
+        text-align: center;
+      }
+
+      .ikpi-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 6px;
+      }
+
+      .ikpi-status {
+        display: inline-block;
+        font-size: 6.5pt;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 10px;
+        margin-top: 4px;
+      }
+
+      .ikpi-status.green {
+        background: #eaf5f0;
+        color: var(--green);
+      }
+      .ikpi-status.red {
+        background: #faeaea;
+        color: var(--red);
+      }
+      .ikpi-status.amber {
+        background: #fbf4e5;
+        color: var(--amber);
+      }
+      .ikpi-status.purple {
+        background: var(--purple-light);
+        color: var(--purple);
+      }
+
+      /* ── LIQUIDEZ BADGES ────────────────────────────────── */
+      .liq-badge {
+        display: inline-block;
+        font-size: 7pt;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 20px;
+      }
+      .liq-badge.green {
+        background: #eaf5f0;
+        color: var(--green);
+      }
+      .liq-badge.amber {
+        background: #fbf4e5;
+        color: var(--amber);
+      }
+      .liq-badge.red {
+        background: #faeaea;
+        color: var(--red);
+      }
+    </style>
+  </body>
+</html>
